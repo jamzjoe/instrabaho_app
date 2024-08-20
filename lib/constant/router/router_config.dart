@@ -8,6 +8,7 @@ import 'package:instrabaho_app/presentation/authentication/register/register_scr
 import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
 import 'package:instrabaho_app/presentation/home/main_screen_wrapper.dart';
 import 'package:instrabaho_app/presentation/interviews/interviews_screen.dart';
+import 'package:instrabaho_app/presentation/messages/message_conversation.dart';
 import 'package:instrabaho_app/presentation/messages/messages_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding/onboarding_user_selection_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding_screen.dart';
@@ -85,6 +86,13 @@ class AppRouterConifg {
             GoRoute(
               path: '/messages',
               name: RouterNames.messages,
+              routes: [
+                GoRoute(
+                  path: 'message_conversation',
+                  name: RouterNames.messageConversation,
+                  builder: (context, state) => const MessagesConversationScreen(),
+                )
+              ],
               builder: (context, state) => Messages(),
             ),
           ]),
