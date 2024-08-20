@@ -9,4 +9,7 @@ class RouterNames {
   static const String interviews = 'interviews';
   static const String messages = 'messages';
   static const String profile = 'profile';
+  static const String forgot_password = 'forgot_password';
+  static const String forgot_password_verification = 'forgot_password_verification';
+  static const String new_password = 'new_password';
 }

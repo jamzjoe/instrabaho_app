@@ -48,13 +48,16 @@ class LoginScreen extends StatelessWidget {
                           context.goNamed(RouterNames.home);
                         }),
                     const Gap(10),
-                    const Row(
+                    Row(
                       children: [
-                        Text("Forgot password?"),
+                        const Text("Forgot password?"),
                         Gap(5),
-                        Text("Reset here",
-                            style: TextStyle(
-                                decoration: TextDecoration.underline)),
+                        GestureDetector(
+                          onTap: () => context.pushNamed(RouterNames.forgot_password),
+                          child: const Text("Reset here",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline)),
+                        ),
                       ],
                     ),
                     const Spacer(),
