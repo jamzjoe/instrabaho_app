@@ -9,4 +9,5 @@ class RouterNames {
   static const String interviews = 'interviews';
   static const String messages = 'messages';
   static const String profile = 'profile';
+  static const String messageConversation = 'message_conversation';
 }
