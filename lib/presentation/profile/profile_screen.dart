@@ -58,7 +58,6 @@ class ProgressPercentage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double progressValue = _getRandomValue();
     return Container(
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.all(5),
@@ -66,6 +65,7 @@ class ProgressPercentage extends StatelessWidget {
           color: Colors.grey[100], borderRadius: BorderRadius.circular(40)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Stack(
             alignment: Alignment.center,
@@ -78,10 +78,9 @@ class ProgressPercentage extends StatelessWidget {
                   width: 50,
                   height: 50,
                   child: CircularProgressIndicator(
-                    value: progressValue,
-                    strokeWidth: 5,
-                    color: primaryColor,
-                  ),
+                      value: skill.percentage,
+                      strokeWidth: 5,
+                      color: primaryColor),
                 ),
               ),
               Center(
