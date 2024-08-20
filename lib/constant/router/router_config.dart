@@ -82,20 +82,25 @@ class AppRouterConifg {
               builder: (context, state) => const Interviews(),
             ),
           ]),
-          StatefulShellBranch(navigatorKey: _messagesNavigatorKey, routes: [
-            GoRoute(
-              path: '/messages',
-              name: RouterNames.messages,
+          StatefulShellBranch(
+              observers: [AppNavigatorObserver()],
+              navigatorKey: _messagesNavigatorKey,
+              initialLocation: '/messages',
               routes: [
                 GoRoute(
-                  path: 'message_conversation',
-                  name: RouterNames.messageConversation,
-                  builder: (context, state) => const MessagesConversationScreen(),
-                )
-              ],
-              builder: (context, state) => Messages(),
-            ),
-          ]),
+                  path: '/messages',
+                  name: RouterNames.messages,
+                  routes: [
+                    GoRoute(
+                      path: 'message_conversation',
+                      name: RouterNames.messageConversation,
+                      builder: (context, state) =>
+                          const MessagesConversationScreen(),
+                    )
+                  ],
+                  builder: (context, state) => Messages(),
+                ),
+              ]),
           StatefulShellBranch(navigatorKey: _profileNavigatorKey, routes: [
             GoRoute(
               path: '/profile',

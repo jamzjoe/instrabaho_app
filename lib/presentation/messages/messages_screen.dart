@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instrabaho_app/constant/router/router_config.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
@@ -94,11 +93,7 @@ class Messages extends StatelessWidget {
                 ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ...List.generate(
-                        20,
-                        (index) => Message())
-                  ],
+                  children: [...List.generate(20, (index) => const Message())],
                 )
               ]))
             ],
@@ -119,49 +114,39 @@ class Message extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.pushNamed(RouterNames.messageConversation),
       child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Row(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            const CircleAvatar(radius: 30, backgroundColor: Colors.grey),
+            const Gap(15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
-                    radius: 30, backgroundColor: Colors.grey),
-                const Gap(15),
-                Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                const Text('John Doe', style: FontStyles.subheader),
+                const Text('Hello there!', style: FontStyles.caption),
+                const Gap(5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('John Doe',
-                        style: FontStyles.subheader),
-                    const Text('Hello there!',
-                        style: FontStyles.caption),
-                    const Gap(5),
+                    Text('2 mins ago',
+                        style: FontStyles.tiny.copyWith(color: hintColor)),
+                    const Gap(16),
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('2 mins ago',
-                            style: FontStyles.tiny
-                                .copyWith(color: hintColor)),
-                        const Gap(16),
-                        Row(
-                          children: [
-                            Icon(Icons.check,
-                                size: 10,
-                                color: primaryColor
-                                    .withOpacity(0.5)),
-                            const Gap(5),
-                            Text('Read',
-                                style: FontStyles.tiny
-                                    .copyWith(
-                                        color: hintColor))
-                          ],
-                        )
+                        Icon(Icons.check,
+                            size: 10, color: primaryColor.withOpacity(0.5)),
+                        const Gap(5),
+                        Text('Read',
+                            style: FontStyles.tiny.copyWith(color: hintColor))
                       ],
                     )
                   ],
                 )
               ],
-            ),
-          ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -2,12 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
 import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
-import 'package:instrabaho_app/presentation/messages/messages_screen.dart';
-import 'package:instrabaho_app/presentation/profile/profile_screen.dart';
-
-import '../interviews/interviews_screen.dart';
 
 class MainScreenWrapper extends StatelessWidget {
   const MainScreenWrapper({super.key, required this.navigationShell});
@@ -69,20 +64,7 @@ class MainScreenWrapper extends StatelessWidget {
           ),
           body: BlocBuilder<BottomNavCubit, BottomNavTab>(
             builder: (context, state) {
-              switch (activeTab) {
-                case BottomNavTab.home:
-                  return const Dashboard();
-                case BottomNavTab.interviews:
-                  return const Interviews();
-                case BottomNavTab.messages:
-                  return Messages();
-                case BottomNavTab.profile:
-                  return const Profile();
-                default:
-              }
-              return const SafeArea(
-                child: Dashboard(),
-              );
+              return navigationShell;
             },
           ),
         );

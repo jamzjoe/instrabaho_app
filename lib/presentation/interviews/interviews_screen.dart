@@ -66,50 +66,6 @@ class Interviews extends StatelessWidget {
   }
 }
 
-class _InterviewList extends StatelessWidget {
-  const _InterviewList();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _InterviewItem(),
-        _InterviewItem(),
-        _InterviewItem(),
-      ],
-    );
-  }
-}
-
-class _InterviewItem extends StatelessWidget {
-  const _InterviewItem();
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        collapsedBackgroundColor: Colors.grey,
-        childrenPadding: EdgeInsets.zero,
-        title: Container(
-            padding: const EdgeInsets.all(10),
-            child: const Text("Interviews with Google")),
-        children: [
-          ...List.generate(
-              3,
-              (index) => ListTile(
-                    title: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("Interview $index")),
-                    subtitle: const Text("Interview scheduled on 12/12/2021"),
-                  ))
-        ]);
-  }
-}
-
 class _InterviewHeader extends StatelessWidget {
   const _InterviewHeader();
 
