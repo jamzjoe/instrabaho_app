@@ -53,6 +53,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 _buildOTPBox(screenWidth, context),
               ],
             ),
+            
             const SizedBox(height: 32), // Added spacing before the OTP fields
             const Text(
               'Didn\'t receive the code?',
