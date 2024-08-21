@@ -20,6 +20,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
           ),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.only(top: 60.0),
         child: Column(
@@ -34,6 +35,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 16), // Added space between "Verify" and the subtitle
             const Text(
               'Please enter the code we\'ve sent you',
@@ -44,6 +46,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32), // Added spacing before the OTP fields
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -63,6 +66,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const Text(
               'Resend Code',
               style: TextStyle(
@@ -71,6 +75,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             const SizedBox(height: 150), // Space before the progress bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -84,6 +89,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                     minHeight: 6, // Set height of the progress bar
                     borderRadius: BorderRadius.circular(10),
                   ),
+
                   const SizedBox(height: 15), // Space between progress bar and the button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -93,11 +99,9 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-
                   onPressed: () => context.pushNamed(RouterNames.new_password),
-
                   child: const Text('Verify',
-                  style: TextStyle(fontSize: 14, color: Colors.white)),
+                    style: TextStyle(fontSize: 14, color: Colors.white)),
                   )
                 ],
                 ),
@@ -105,6 +109,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
 
