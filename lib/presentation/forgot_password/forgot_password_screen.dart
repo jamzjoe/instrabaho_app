@@ -34,6 +34,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     fontWeight: FontWeight.bold),
               ),
             ),
+
             Padding(
               padding: EdgeInsets.symmetric(
                 vertical: screenHeight * 0.01,
@@ -46,6 +47,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fit: BoxFit.contain,
               ),
             ),
+
             const Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 24.0,
@@ -138,6 +140,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 ? Colors.blueAccent
                                 : Colors.black,
                           ),
+
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
