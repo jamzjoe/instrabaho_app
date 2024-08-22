@@ -72,17 +72,16 @@ class ProgressPercentage extends StatelessWidget {
             children: [
               //  create circular progress indicator
               Center(
-                child: Container(
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
-                  width: 50,
-                  height: 50,
-                  child: CircularProgressIndicator(
-                      value: skill.percentage,
-                      strokeWidth: 5,
-                      color: primaryColor),
-                ),
-              ),
+                  child: Container(
+                decoration: const BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.white),
+                width: 50,
+                height: 50,
+                child: CircularProgressIndicator(
+                    value: skill.percentage,
+                    strokeWidth: 5,
+                    color: primaryColor),
+              )),
               Center(
                 child: Text("${(skill.percentage * 100).toStringAsFixed(0)}%",
                     style: FontStyles.caption),

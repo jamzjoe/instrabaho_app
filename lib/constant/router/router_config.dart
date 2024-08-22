@@ -6,8 +6,12 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/presentation/authentication/login/login_screen.dart';
 import 'package:instrabaho_app/presentation/authentication/register/register_screen.dart';
 import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
+import 'package:instrabaho_app/presentation/forgot_password/forgot_password_screen.dart';
+import 'package:instrabaho_app/presentation/forgot_password/forgot_password_verification.dart';
+import 'package:instrabaho_app/presentation/forgot_password/new_password.dart';
 import 'package:instrabaho_app/presentation/home/main_screen_wrapper.dart';
 import 'package:instrabaho_app/presentation/interviews/interviews_screen.dart';
+import 'package:instrabaho_app/presentation/jobs/job_details.dart';
 import 'package:instrabaho_app/presentation/messages/message_conversation.dart';
 import 'package:instrabaho_app/presentation/messages/messages_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding/onboarding_user_selection_screen.dart';
@@ -54,6 +58,26 @@ class AppRouterConifg {
                   GoRoute(
                     path: 'login',
                     name: RouterNames.login,
+                    routes: [
+                        GoRoute(
+                        path: 'forgot_password',
+                        name: RouterNames.forgot_password,
+                        builder: (context, state) =>
+                            ForgotPasswordScreen(),
+                      ),
+                      GoRoute(
+                        path: 'forgot_password_verification',
+                        name: RouterNames.forgot_password_verification,
+                        builder: (context, state) =>
+                            ForgotPasswordVerificationScreen(),
+                      ),
+                      GoRoute(
+                        path: 'new_password',
+                        name: RouterNames.new_password,
+                        builder: (context, state) =>
+                            NewPasswordScreen(),
+                      ),
+                    ],
                     builder: (context, state) =>
                         LoginScreen(userType: state.extra as String),
                   ),
@@ -70,10 +94,16 @@ class AppRouterConifg {
         branches: [
           StatefulShellBranch(navigatorKey: _homeBranchNavigatorKey, routes: [
             GoRoute(
-              path: '/home',
-              name: RouterNames.home,
-              builder: (context, state) => const Dashboard(),
-            ),
+                path: '/home',
+                name: RouterNames.home,
+                builder: (context, state) => const Dashboard(),
+                routes: [
+                  GoRoute(
+                    path: 'job-details',
+                    name: RouterNames.jobDetails,
+                    builder: (context, state) => const JobDetailScreen(),
+                  ),
+                ]),
           ]),
           StatefulShellBranch(navigatorKey: _interviewsNavigatorKey, routes: [
             GoRoute(

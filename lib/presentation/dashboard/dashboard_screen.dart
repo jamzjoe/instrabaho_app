@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
@@ -79,41 +81,46 @@ class _RecentJobs extends StatelessWidget {
               children: [
                 ...List.generate(
                     20,
-                    (index) => Container(
-                          padding: const EdgeInsets.all(25),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    color: primaryColor.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              const Gap(10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text("Job Title",
-                                      style: FontStyles.caption),
-                                  const Text('Company Name',
-                                      style: FontStyles.caption),
-                                  const Gap(5),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(Assets.svg.coins),
-                                      const Gap(5),
-                                      const Text("Php 1,000 - 2,000",
-                                          style: FontStyles.caption),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
+                    (index) => GestureDetector(
+                          onTap: () {
+                            context.pushNamed(RouterNames.jobDetails);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(25),
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                      color: primaryColor.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                const Gap(10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text("Job Title",
+                                        style: FontStyles.caption),
+                                    const Text('Company Name',
+                                        style: FontStyles.caption),
+                                    const Gap(5),
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(Assets.svg.coins),
+                                        const Gap(5),
+                                        const Text("Php 1,000 - 2,000",
+                                            style: FontStyles.caption),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ))
               ],

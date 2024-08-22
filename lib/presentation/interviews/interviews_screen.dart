@@ -19,44 +19,49 @@ class Interviews extends StatelessWidget {
               const Gap(15),
               CustomExpansionTile(
                   title: "Test",
-                  body: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Construction Worker',
-                          style: FontStyles.subheader),
-                      const Gap(5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("About the client",
-                              style:
-                                  FontStyles.subheader.copyWith(fontSize: 16)),
-                          const Gap(10),
-                          Row(
-                            children: [
-                              const Text("\$2.4K spent",
-                                  style: FontStyles.tiny),
-                              const Spacer(),
-                              Text("1 job posted",
-                                  style: FontStyles.tiny
-                                      .copyWith(color: primaryColor)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Gap(10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Received Aug 19, 2024",
-                              style:
-                                  FontStyles.subheader.copyWith(fontSize: 16)),
-                          Text("yesterday",
-                              style:
-                                  FontStyles.tiny.copyWith(color: primaryColor))
-                        ],
-                      )
-                    ],
+                  body: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Construction Worker',
+                            style: FontStyles.subheader
+                                .copyWith(fontWeight: FontWeight.w600)),
+                        const Gap(5),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("About the client",
+                                style: FontStyles.subheader
+                                    .copyWith(fontSize: 16)),
+                            const Gap(10),
+                            Row(
+                              children: [
+                                const Text("\$2.4K spent",
+                                    style: FontStyles.tiny),
+                                const Spacer(),
+                                Text("1 job posted",
+                                    style: FontStyles.tiny
+                                        .copyWith(color: primaryColor)),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Gap(10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Received Aug 19, 2024",
+                                style: FontStyles.subheader
+                                    .copyWith(fontSize: 16)),
+                            Text("yesterday",
+                                style: FontStyles.tiny
+                                    .copyWith(color: primaryColor))
+                          ],
+                        )
+                      ],
+                    ),
                   )),
             ]),
           ),
@@ -93,7 +98,7 @@ class CustomExpansionTile extends StatefulWidget {
       {super.key, required this.title, required this.body});
 
   @override
-  _CustomExpansionTileState createState() => _CustomExpansionTileState();
+  State<StatefulWidget> createState() => _CustomExpansionTileState();
 }
 
 class _CustomExpansionTileState extends State<CustomExpansionTile> {
