@@ -9,8 +9,8 @@ class NewPasswordScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
             content: SizedBox(
-              width: 100,
-              height: 200,
+              width: 150,
+              height: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -50,9 +50,7 @@ class NewPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const Icon(Icons.keyboard_backspace_outlined),
-          title: const Center(
-            child: Text(
+          title: const Text(
               'Forgot Password',
               style: TextStyle(
                 fontSize: 14,
@@ -60,7 +58,7 @@ class NewPasswordScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
+
         ),
         body: ListView(
           children: [
