@@ -58,7 +58,6 @@ class NewPasswordScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
         ),
         body: ListView(
           children: [
