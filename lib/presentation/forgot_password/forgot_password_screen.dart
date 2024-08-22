@@ -21,7 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       appBar: AppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: screenHeight * 0.1, 
+          vertical: screenHeight * 0.05, 
         ),
         child: ListView(
           children: <Widget>[

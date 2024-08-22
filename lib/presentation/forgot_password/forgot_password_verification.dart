@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 
@@ -20,7 +21,6 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.only(top: 60.0),
         child: Column(
@@ -35,8 +35,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-            const SizedBox(height: 16), // Added space between "Verify" and the subtitle
+            const SizedBox(height: 16),
             const Text(
               'Please enter the code we\'ve sent you',
               style: TextStyle(
@@ -45,8 +44,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 32), // Added spacing before the OTP fields
-            
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -56,8 +54,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 _buildOTPBox(screenWidth, context),
               ],
             ),
-            
-            const SizedBox(height: 32), // Added spacing before the OTP fields
+            const SizedBox(height: 32),
             const Text(
               'Didn\'t receive the code?',
               style: TextStyle(
@@ -66,7 +63,6 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const Text(
               'Resend Code',
               style: TextStyle(
@@ -75,70 +71,75 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
-            const SizedBox(height: 150), // Space before the progress bar
+            const Spacer(), // Pushes the remaining content to the bottom
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const Text(
+                    '1 of 2',
+                    textAlign: TextAlign.end,
+                  ),
                   LinearProgressIndicator(
-                    value: 0.5, 
-                    backgroundColor: Colors.grey[300], 
+                    value: 0.5,
+                    backgroundColor: Colors.grey[300],
                     color: Colors.black,
-                    minHeight: 6, // Set height of the progress bar
+                    minHeight: 6,
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  const SizedBox(height: 15),
 
-                  const SizedBox(height: 15), // Space between progress bar and the button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () => context.pushNamed(RouterNames.new_password),
+                      child: const Text(
+                        'Verify',
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      ),
                     ),
-                  ),
-                  onPressed: () => context.pushNamed(RouterNames.new_password),
-                  child: const Text('Verify',
-                    style: TextStyle(fontSize: 14, color: Colors.white)),
-                  )
+                  
+                  const Gap(20), //
                 ],
-                ),
               ),
+            ),
           ],
         ),
       ),
-
     );
   }
 
   Widget _buildOTPBox(double screenWidth, BuildContext context) {
     return SizedBox(
-      width: screenWidth * 0.15, // Adjust width based on screen size
+      width: screenWidth * 0.17,
       child: TextFormField(
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 24),
         keyboardType: TextInputType.number,
-        maxLength: 1, // Only allow one digit per box
+        maxLength: 1,
         decoration: InputDecoration(
-          counterText: "", // Hide character counter
+          counterText: "",
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(width: 2.0, color: Colors.black12), // Box border
+            borderSide: const BorderSide(width: 2.0, color: Colors.black12),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(width: 2.0, color: Colors.black), // Box border when focused
+            borderSide: const BorderSide(width: 2.0, color: Colors.black),
           ),
         ),
         onChanged: (value) {
           if (value.length == 1) {
-            FocusScope.of(context).nextFocus(); // Move to next box when filled
+            FocusScope.of(context).nextFocus();
           }
         },
       ),
     );
   }
 }
-
