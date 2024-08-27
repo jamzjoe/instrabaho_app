@@ -27,12 +27,11 @@ class PracticeScreen extends StatelessWidget {
   }
 
   void increment(BuildContext context) {
-  print("click");
-  BlocProvider.of<PracticeCubit>(context).increment;
+  BlocProvider.of<PracticeCubit>(context).increment();
 
   }
 
   void decrement(BuildContext context) {
-  BlocProvider.of<PracticeCubit>(context).decrement;
+  BlocProvider.of<PracticeCubit>(context).decrement();
   }
 }
