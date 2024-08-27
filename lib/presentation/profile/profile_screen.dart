@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/mock_data/skills.dart';
+import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:ionicons/ionicons.dart';
@@ -198,7 +200,28 @@ class _ProfileHeader extends StatelessWidget {
                     Text("Account",
                         style:
                             FontStyles.subheader.copyWith(color: Colors.white)),
-                    const Icon(Ionicons.ellipsis_vertical, color: Colors.white)
+                    IconButton(
+                      icon: const Icon(Ionicons.ellipsis_vertical,
+                          color: Colors.white),
+                      onPressed: () {
+                        showMenu(
+                          context: context,
+                          position: const RelativeRect.fromLTRB(100, 100, 0, 0),
+                          items: [
+                            const PopupMenuItem<String>(
+                              value: 'logout',
+                              child: Text('Logout'),
+                            ),
+                          ],
+                          elevation: 8.0,
+                        ).then((value) {
+                          if (value == 'logout') {
+                            context.pushReplacementNamed(
+                                RouterNames.onboardingUserSelection);
+                          }
+                        });
+                      },
+                    )
                   ],
                 ),
               )

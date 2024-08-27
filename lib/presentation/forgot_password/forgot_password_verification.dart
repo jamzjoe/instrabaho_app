@@ -8,7 +8,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -20,7 +20,6 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.only(top: 60.0),
         child: Column(
@@ -36,7 +35,8 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 16), // Added space between "Verify" and the subtitle
+            const SizedBox(
+                height: 16), // Added space between "Verify" and the subtitle
             const Text(
               'Please enter the code we\'ve sent you',
               style: TextStyle(
@@ -46,7 +46,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32), // Added spacing before the OTP fields
-            
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -56,7 +56,7 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 _buildOTPBox(screenWidth, context),
               ],
             ),
-            
+
             const SizedBox(height: 32), // Added spacing before the OTP fields
             const Text(
               'Didn\'t receive the code?',
@@ -83,33 +83,34 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LinearProgressIndicator(
-                    value: 0.5, 
-                    backgroundColor: Colors.grey[300], 
+                    value: 0.5,
+                    backgroundColor: Colors.grey[300],
                     color: Colors.black,
                     minHeight: 6, // Set height of the progress bar
                     borderRadius: BorderRadius.circular(10),
                   ),
 
-                  const SizedBox(height: 15), // Space between progress bar and the button
+                  const SizedBox(
+                      height: 15), // Space between progress bar and the button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
-                  ),
-                  onPressed: () => context.pushNamed(RouterNames.new_password),
-                  child: const Text('Verify',
-                    style: TextStyle(fontSize: 14, color: Colors.white)),
+                    onPressed: () =>
+                        context.pushNamed(RouterNames.new_password),
+                    child: const Text('Verify',
+                        style: TextStyle(fontSize: 14, color: Colors.white)),
                   )
                 ],
-                ),
               ),
+            ),
           ],
         ),
       ),
-
     );
   }
 
@@ -125,11 +126,13 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
           counterText: "", // Hide character counter
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(width: 2.0, color: Colors.black12), // Box border
+            borderSide: const BorderSide(
+                width: 2.0, color: Colors.black12), // Box border
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(width: 2.0, color: Colors.black), // Box border when focused
+            borderSide: const BorderSide(
+                width: 2.0, color: Colors.black), // Box border when focused
           ),
         ),
         onChanged: (value) {
@@ -141,4 +144,3 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
     );
   }
 }
-

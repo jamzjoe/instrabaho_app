@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class NewPasswordScreen extends StatelessWidget {
   const NewPasswordScreen({super.key});
@@ -9,34 +10,34 @@ class NewPasswordScreen extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
             content: SizedBox(
-              width: 150,
-              height: 400,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+          width: 150,
+          height: 400,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/forgot_password_img.jpg',
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Congratulations !',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              const Column(
                 children: [
-                  Image.asset(
-                    'assets/images/forgot_password_img.jpg',
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Congratulations !',
+                  Text(
+                    'Password Reset successful\n'
+                    'You\'ll be redirected to\n'
+                    'the login screen now \n',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 12,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
-                  const Column(
-                    children: [
-                      Text(
-                        'Password Reset successful\n'
-                        'You\'ll be redirected to\n'
-                        'the login screen now \n',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                    ),
                 ],
               ),
             ],
@@ -51,14 +52,15 @@ class NewPasswordScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-              'Forgot Password',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
+            'Forgot Password',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
             ),
+          ),
         ),
+        //TODO: Use CustomScrollView instead of ListView
         body: ListView(
           children: [
             const SizedBox(height: 50),
@@ -72,6 +74,7 @@ class NewPasswordScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            const Gap(20),
             Padding(
               padding: const EdgeInsets.only(
                 left: 20.0,
@@ -149,6 +152,7 @@ class NewPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
+            //TODO: Use spacer instead of SizedBox
             const SizedBox(height: 400), // Space before the progress bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),

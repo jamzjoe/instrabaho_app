@@ -59,23 +59,22 @@ class AppRouterConifg {
                     path: 'login',
                     name: RouterNames.login,
                     routes: [
-                        GoRoute(
+                      GoRoute(
                         path: 'forgot_password',
                         name: RouterNames.forgot_password,
                         builder: (context, state) =>
-                            ForgotPasswordScreen(),
+                            const ForgotPasswordScreen(),
                       ),
                       GoRoute(
                         path: 'forgot_password_verification',
                         name: RouterNames.forgot_password_verification,
                         builder: (context, state) =>
-                            ForgotPasswordVerificationScreen(),
+                            const ForgotPasswordVerificationScreen(),
                       ),
                       GoRoute(
                         path: 'new_password',
                         name: RouterNames.new_password,
-                        builder: (context, state) =>
-                            NewPasswordScreen(),
+                        builder: (context, state) => const NewPasswordScreen(),
                       ),
                     ],
                     builder: (context, state) =>
