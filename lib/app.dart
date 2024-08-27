@@ -5,6 +5,7 @@ import 'package:instrabaho_app/constant/router/router_config.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
 import 'package:instrabaho_app/presentation/onboarding/bloc/onboarding_bloc.dart';
+import 'package:instrabaho_app/presentation/practice/cubit/practice_cubit.dart';
 
 class InstrabahoApp extends StatelessWidget {
   const InstrabahoApp({super.key});
@@ -18,6 +19,9 @@ class InstrabahoApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => BottomNavCubit(),
+        ),
+        BlocProvider(
+          create: (context) => PracticeCubit(),
         ),
       ],
       child: MaterialApp.router(

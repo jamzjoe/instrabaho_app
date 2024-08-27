@@ -16,6 +16,7 @@ import 'package:instrabaho_app/presentation/messages/message_conversation.dart';
 import 'package:instrabaho_app/presentation/messages/messages_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding/onboarding_user_selection_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding_screen.dart';
+import 'package:instrabaho_app/presentation/practice/practice_screen.dart';
 import 'package:instrabaho_app/presentation/profile/profile_screen.dart';
 
 import '../../presentation/onboarding/splash_screen.dart';
@@ -59,6 +60,12 @@ class AppRouterConifg {
                     path: 'login',
                     name: RouterNames.login,
                     routes: [
+                      GoRoute(
+                        path: 'practice_screen',
+                        name: RouterNames.practiceScreen,
+                        builder: (context, state) =>
+                            const PracticeScreen(),
+                      ),
                       GoRoute(
                         path: 'forgot_password',
                         name: RouterNames.forgot_password,
