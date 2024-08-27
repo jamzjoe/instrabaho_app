@@ -14,4 +14,5 @@ class RouterNames {
   static const String new_password = 'new_password';
   static const String messageConversation = 'message_conversation';
   static const String jobDetails = 'job_details';
+  static const String practiceScreen = 'practice_screen';
 }

@@ -62,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     const Center(child: Text("Or sign in with")),
+                    ElevatedButton(onPressed: () => context.pushNamed(RouterNames.practiceScreen) , child: Text("To Practice")),
                     const Spacer(),
                     Row(
                       children: [
