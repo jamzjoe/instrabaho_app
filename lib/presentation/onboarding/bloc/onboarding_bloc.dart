@@ -8,7 +8,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   OnboardingBloc() : super(const OnboardingState(isSplashScreen: true)) {
     on<OnboardingSplashScreenEvent>((event, emit) async {
       emit(const OnboardingState(isSplashScreen: true));
-      await Future.delayed(const Duration(seconds: 5), () {
+      await Future.delayed(const Duration(seconds: 3), () {
         emit(const OnboardingState(isSplashScreen: false));
       });
     });

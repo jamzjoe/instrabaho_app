@@ -12,12 +12,49 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/forgot_password_img.jpg
+  AssetGenImage get forgotPasswordImg =>
+      const AssetGenImage('assets/images/forgot_password_img.jpg');
+
   /// File path: assets/images/instrabaho_logo.png
   AssetGenImage get instrabahoLogo =>
       const AssetGenImage('assets/images/instrabaho_logo.png');
 
+  /// File path: assets/images/onboarding_1.jpg
+  AssetGenImage get onboarding1 =>
+      const AssetGenImage('assets/images/onboarding_1.jpg');
+
+  /// File path: assets/images/onboarding_2.jpg
+  AssetGenImage get onboarding2 =>
+      const AssetGenImage('assets/images/onboarding_2.jpg');
+
+  /// File path: assets/images/onboarding_3.jpg
+  AssetGenImage get onboarding3 =>
+      const AssetGenImage('assets/images/onboarding_3.jpg');
+
+  /// File path: assets/images/onboarding_4.jpg
+  AssetGenImage get onboarding4 =>
+      const AssetGenImage('assets/images/onboarding_4.jpg');
+
   /// List of all assets
-  List<AssetGenImage> get values => [instrabahoLogo];
+  List<AssetGenImage> get values => [
+        forgotPasswordImg,
+        instrabahoLogo,
+        onboarding1,
+        onboarding2,
+        onboarding3,
+        onboarding4
+      ];
+}
+
+class $AssetsJsonGen {
+  const $AssetsJsonGen();
+
+  /// File path: assets/json/instrabaho-splash copy.json
+  String get instrabahoSplashCopy => 'assets/json/instrabaho-splash copy.json';
+
+  /// List of all assets
+  List<String> get values => [instrabahoSplashCopy];
 }
 
 class $AssetsSvgGen {
@@ -29,6 +66,12 @@ class $AssetsSvgGen {
   /// File path: assets/svg/custom_back_btn.svg
   String get customBackBtn => 'assets/svg/custom_back_btn.svg';
 
+  /// File path: assets/svg/custom_back_button.svg
+  String get customBackButton => 'assets/svg/custom_back_button.svg';
+
+  /// File path: assets/svg/instrabaho_logo.svg
+  String get instrabahoLogo => 'assets/svg/instrabaho_logo.svg';
+
   /// File path: assets/svg/job_seeker_human.svg
   String get jobSeekerHuman => 'assets/svg/job_seeker_human.svg';
 
@@ -36,14 +79,21 @@ class $AssetsSvgGen {
   String get recruiterHuman => 'assets/svg/recruiter_human.svg';
 
   /// List of all assets
-  List<String> get values =>
-      [coins, customBackBtn, jobSeekerHuman, recruiterHuman];
+  List<String> get values => [
+        coins,
+        customBackBtn,
+        customBackButton,
+        instrabahoLogo,
+        jobSeekerHuman,
+        recruiterHuman
+      ];
 }
 
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }
 

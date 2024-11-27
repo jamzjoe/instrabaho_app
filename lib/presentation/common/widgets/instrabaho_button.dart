@@ -4,26 +4,48 @@ import 'package:instrabaho_app/constant/styles/font_styles.dart';
 
 class InstrabahoButton extends StatelessWidget {
   const InstrabahoButton(
-      {super.key, required this.label, this.isTwoTone = false, this.onTap});
+      {super.key,
+      required this.label,
+      this.isTwoTone = false,
+      this.onTap,
+      this.verticalMargin = 0.0,
+      this.horizontalMargin = 0.0,
+      this.outline = false,
+      this.borderColor,
+      this.bgColor});
 
   final String label;
   final bool isTwoTone;
   final Function()? onTap;
+  final double verticalMargin;
+  final double horizontalMargin;
+  final bool outline;
+  final Color? borderColor;
+  final Color? bgColor;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: EdgeInsets.symmetric(
+            vertical: verticalMargin, horizontal: horizontalMargin),
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
         decoration: BoxDecoration(
-          color: isTwoTone ? primaryColor : primaryColor,
-          gradient: isTwoTone
+          color: outline
+              ? Colors.transparent
+              : (bgColor ?? (isTwoTone ? buttonColor : buttonColor)),
+          gradient: isTwoTone && !outline
               ? LinearGradient(colors: [
-                  primaryColor,
-                  primaryColor.withOpacity(0.5),
+                  buttonColor,
+                  buttonColor.withOpacity(0.5),
                 ])
+              : null,
+          border: outline
+              ? Border.all(
+                  color: borderColor ?? buttonColor,
+                  strokeAlign: BorderSide.strokeAlignInside)
               : null,
           borderRadius: BorderRadius.circular(60),
         ),
@@ -31,7 +53,7 @@ class InstrabahoButton extends StatelessWidget {
           child: Text(
             label,
             style: FontStyles.subheader.copyWith(
-              color: isTwoTone ? Colors.white : Colors.white,
+              color: outline ? (borderColor ?? buttonColor) : Colors.white,
             ),
           ),
         ),

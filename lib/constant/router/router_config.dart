@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/presentation/authentication/login/login_screen.dart';
+import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_otp.dart';
+import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_verification.dart';
 import 'package:instrabaho_app/presentation/authentication/register/register_screen.dart';
 import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
 import 'package:instrabaho_app/presentation/forgot_password/forgot_password_screen.dart';
@@ -63,8 +65,7 @@ class AppRouterConifg {
                       GoRoute(
                         path: 'practice_screen',
                         name: RouterNames.practiceScreen,
-                        builder: (context, state) =>
-                            const PracticeScreen(),
+                        builder: (context, state) => const PracticeScreen(),
                       ),
                       GoRoute(
                         path: 'forgot_password',
@@ -84,14 +85,27 @@ class AppRouterConifg {
                         builder: (context, state) => const NewPasswordScreen(),
                       ),
                     ],
-                    builder: (context, state) =>
-                        LoginScreen(userType: state.extra as String),
+                    builder: (context, state) => const LoginScreen(),
                   ),
                   GoRoute(
                     path: 'register',
                     name: RouterNames.register,
-                    builder: (context, state) =>
-                        RegisterScreen(userType: state.extra as String),
+                    routes: [
+                      GoRoute(
+                        path: 'phone_number_verification',
+                        name: RouterNames.phoneNumberVerification,
+                        routes: [
+                          GoRoute(
+                            path: 'otp',
+                            name: RouterNames.otp,
+                            builder: (context, state) => const PhoneNumberOtp(),
+                          ),
+                        ],
+                        builder: (context, state) =>
+                            const PhoneNumberVerification(),
+                      ),
+                    ],
+                    builder: (context, state) => const RegisterScreen(),
                   ),
                 ]),
           ]),

@@ -26,7 +26,7 @@ class InstrabahoApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
           theme: ThemeData(
-            textTheme: GoogleFonts.poppinsTextTheme(
+            textTheme: GoogleFonts.nunitoTextTheme(
               Theme.of(context).textTheme.copyWith(
                     displayLarge: const TextStyle(
                         fontSize: 72.0, fontWeight: FontWeight.bold),
@@ -36,7 +36,7 @@ class InstrabahoApp extends StatelessWidget {
             ),
             colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.orange)
                 .copyWith(secondary: secondaryColor)
-                .copyWith(background: const Color.fromARGB(255, 253, 252, 250)),
+                .copyWith(surface: const Color.fromARGB(255, 253, 252, 250)),
           ),
           routerConfig: AppRouterConifg.routerConfig),
     );

@@ -10,9 +10,12 @@ class RouterNames {
   static const String messages = 'messages';
   static const String profile = 'profile';
   static const String forgot_password = 'forgot_password';
-  static const String forgot_password_verification = 'forgot_password_verification';
+  static const String forgot_password_verification =
+      'forgot_password_verification';
   static const String new_password = 'new_password';
   static const String messageConversation = 'message_conversation';
   static const String jobDetails = 'job_details';
   static const String practiceScreen = 'practice_screen';
+  static const String phoneNumberVerification = 'phone_number_verification';
+  static const String otp = 'otp';
 }

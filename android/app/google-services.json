@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "195480920919",
+    "project_id": "instrabaho-f0dd1",
+    "storage_bucket": "instrabaho-f0dd1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195480920919:android:72d22ac1ff3bf1ccded412",
+        "android_client_info": {
+          "package_name": "com.instrabaho.instrabaho_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUz_LCB_0VtUlpWhkYGjFKoPaeuxtZaGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

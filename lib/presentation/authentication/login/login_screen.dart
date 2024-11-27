@@ -10,19 +10,16 @@ import 'package:instrabaho_app/presentation/common/widgets/instrabaho_textfield.
 import 'package:ionicons/ionicons.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key, required this.userType});
-
-  final String userType;
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             centerTitle: false,
-            title: Text(userType),
-            leading: const CustomBackButton(),
+            leading: CustomBackButton(),
           ),
           SliverFillRemaining(
             child: SafeArea(
@@ -51,9 +48,10 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       children: [
                         const Text("Forgot password?"),
-                        Gap(5),
+                        const Gap(5),
                         GestureDetector(
-                          onTap: () => context.pushNamed(RouterNames.forgot_password),
+                          onTap: () =>
+                              context.pushNamed(RouterNames.forgot_password),
                           child: const Text("Reset here",
                               style: TextStyle(
                                   decoration: TextDecoration.underline)),
@@ -62,7 +60,6 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     const Center(child: Text("Or sign in with")),
-                    ElevatedButton(onPressed: () => context.pushNamed(RouterNames.practiceScreen) , child: Text("To Practice")),
                     const Spacer(),
                     Row(
                       children: [
@@ -119,8 +116,8 @@ class LoginScreen extends StatelessWidget {
                     Center(
                         child: GestureDetector(
                             onTap: () {
-                              context.pushReplacementNamed(RouterNames.register,
-                                  extra: userType);
+                              context
+                                  .pushReplacementNamed(RouterNames.register);
                             },
                             child: const Text("Create an account"))),
                   ],

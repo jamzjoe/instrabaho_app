@@ -9,19 +9,16 @@ import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dar
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_textfield.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key, required this.userType});
-
-  final String userType;
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             centerTitle: false,
-            title: Text(userType),
-            leading: const CustomBackButton(),
+            leading: CustomBackButton(),
           ),
           SliverFillRemaining(
             child: SafeArea(
@@ -55,8 +52,7 @@ class RegisterScreen extends StatelessWidget {
                     Center(
                       child: GestureDetector(
                           onTap: () {
-                            context.pushReplacementNamed(RouterNames.login,
-                                extra: userType);
+                            context.pushReplacementNamed(RouterNames.login);
                           },
                           child: const Text("Don't have an account? Sign up")),
                     ),
