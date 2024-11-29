@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +9,7 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
+import 'package:instrabaho_app/presentation/authentication/profile/bloc/profile_bloc.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
@@ -62,7 +66,13 @@ class PhoneNumberVerification extends StatelessWidget {
                 PhoneValidator.validMobile(context)
               ]),
               countrySelectorNavigator: const CountrySelectorNavigator.page(),
-              onChanged: (phoneNumber) => print('changed into $phoneNumber'),
+              onChanged: (phoneNumber) {
+                log("Phone number: $phoneNumber");
+                BlocProvider.of<ProfileBloc>(context).add(
+                    ProfileOnChangePhoneNumber(
+                        phoneNumber: phoneNumber.nsn,
+                        isPhoneNumberValid: phoneNumber.isValid()));
+              },
               enabled: true,
               isCountrySelectionEnabled: true,
               isCountryButtonPersistent: true,
@@ -76,11 +86,20 @@ class PhoneNumberVerification extends StatelessWidget {
                       .textTheme.caption // Set the country code text style
                   )),
           const Spacer(),
-          InstrabahoButton(
-              label: 'Continue',
-              onTap: () {
-                context.pushNamed(RouterNames.otp);
-              }),
+          BlocSelector<ProfileBloc, ProfileState, bool>(
+            selector: (state) {
+              return state.isPhoneNumberValid;
+            },
+            builder: (context, state) {
+              return InstrabahoButton(
+                  label: 'Continue',
+                  onTap: state
+                      ? () {
+                          context.pushNamed(RouterNames.otp);
+                        }
+                      : null);
+            },
+          ),
           const Gap(50)
         ],
       ),

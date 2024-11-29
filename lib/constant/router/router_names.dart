@@ -18,4 +18,5 @@ class RouterNames {
   static const String practiceScreen = 'practice_screen';
   static const String phoneNumberVerification = 'phone_number_verification';
   static const String otp = 'otp';
+  static const String completeProfile = 'complete_profile';
 }

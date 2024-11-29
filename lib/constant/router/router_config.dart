@@ -6,6 +6,7 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/presentation/authentication/login/login_screen.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_otp.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_verification.dart';
+import 'package:instrabaho_app/presentation/authentication/profile/complete_profile_form.dart';
 import 'package:instrabaho_app/presentation/authentication/register/register_screen.dart';
 import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
 import 'package:instrabaho_app/presentation/forgot_password/forgot_password_screen.dart';
@@ -98,6 +99,14 @@ class AppRouterConifg {
                           GoRoute(
                             path: 'otp',
                             name: RouterNames.otp,
+                            routes: [
+                              GoRoute(
+                                path: 'complete_profile',
+                                name: RouterNames.completeProfile,
+                                builder: (context, state) =>
+                                    CompleteProfileForm(),
+                              ),
+                            ],
                             builder: (context, state) => const PhoneNumberOtp(),
                           ),
                         ],

@@ -1,15 +1,59 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
+import 'package:instrabaho_app/presentation/authentication/profile/bloc/profile_bloc.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
 import 'package:pinput/pinput.dart';
 
-class PhoneNumberOtp extends StatelessWidget {
+class PhoneNumberOtp extends StatefulWidget {
   const PhoneNumberOtp({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _PhoneNumberOtpState();
+  }
+}
+
+class _PhoneNumberOtpState extends State<PhoneNumberOtp> {
+  Timer? _timer;
+  int _start = 30;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _start = 30;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_start == 0) {
+        setState(() {
+          timer.cancel();
+        });
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +79,13 @@ class PhoneNumberOtp extends StatelessWidget {
           const Gap(32),
           Center(
             child: Pinput(
+              onChanged: (value) {
+                log("OTP value: $value");
+                BlocProvider.of<ProfileBloc>(context).add(
+                    ProfileOnOTPValidation(
+                        otp: value,
+                        isOtpValid: value.isNotEmpty && value.length == 6));
+              },
               length: 6,
               defaultPinTheme: PinTheme(
                   constraints:
@@ -56,10 +107,33 @@ class PhoneNumberOtp extends StatelessWidget {
           ),
           const Gap(16),
           Center(
-              child: Text('Didn’t receive the code? Resend in 30 seconds.',
-                  style: context.textTheme.instruction)),
+              child: GestureDetector(
+            onTap: () {
+              if (_start == 0) {
+                startTimer();
+              }
+            },
+            child: Text(
+                _start > 0
+                    ? 'Didn’t receive the code? Resend in $_start seconds.'
+                    : 'Resend code',
+                style: context.textTheme.instruction),
+          )),
           const Spacer(),
-          InstrabahoButton(label: 'Verify', onTap: () {}),
+          BlocSelector<ProfileBloc, ProfileState, bool>(
+            selector: (state) {
+              return state.isOtpValid;
+            },
+            builder: (context, state) {
+              return InstrabahoButton(
+                  label: 'Verify',
+                  onTap: state
+                      ? () {
+                          context.pushNamed(RouterNames.completeProfile);
+                        }
+                      : null);
+            },
+          ),
           const Gap(50)
         ],
       ),

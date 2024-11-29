@@ -16,7 +16,7 @@ class CustomBackButton extends StatelessWidget {
       },
       child: Container(
           padding: const EdgeInsets.only(left: 16),
-          child: SvgPicture.asset(Assets.svg.customBackBtn)),
+          child: SvgPicture.asset(Assets.svg.customBackButton)),
     );
   }
 }

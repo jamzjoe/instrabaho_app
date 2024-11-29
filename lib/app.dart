@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:instrabaho_app/constant/router/router_config.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
+import 'package:instrabaho_app/presentation/authentication/profile/bloc/profile_bloc.dart';
 import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
 import 'package:instrabaho_app/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:instrabaho_app/presentation/practice/cubit/practice_cubit.dart';
@@ -22,6 +23,9 @@ class InstrabahoApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PracticeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(),
         ),
       ],
       child: MaterialApp.router(

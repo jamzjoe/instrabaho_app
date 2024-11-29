@@ -216,8 +216,8 @@ class _ProfileHeader extends StatelessWidget {
                           elevation: 8.0,
                         ).then((value) {
                           if (value == 'logout') {
-                            context.pushReplacementNamed(
-                                RouterNames.onboardingUserSelection);
+                            // ignore: use_build_context_synchronously
+                            context.goNamed(RouterNames.onboarding);
                           }
                         });
                       },
