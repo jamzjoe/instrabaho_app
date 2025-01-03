@@ -18,7 +18,7 @@ class MainScreenWrapper extends StatelessWidget {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
             onTap: (value) {
-              navigationShell.goBranch(value);
+              navigationShell.goBranch(value, initialLocation: true);
               switch (value) {
                 case 0:
                   context.read<BottomNavCubit>().selectTab(BottomNavTab.home);
@@ -51,7 +51,7 @@ class MainScreenWrapper extends StatelessWidget {
               BottomNavigationBarItem(
                   activeIcon: Icon(CupertinoIcons.bookmark_fill),
                   icon: Icon(CupertinoIcons.bookmark),
-                  label: 'Interviews'),
+                  label: 'Activity'),
               BottomNavigationBarItem(
                   activeIcon: Icon(CupertinoIcons.mail_solid),
                   icon: Icon(CupertinoIcons.mail),

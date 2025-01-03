@@ -1,247 +1,325 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instrabaho_app/constant/mock_data/skills.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:instrabaho_app/gen/assets.gen.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({
-    super.key,
-  });
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const ClampingScrollPhysics(),
-      slivers: [
-        SliverList(
-            delegate: SliverChildListDelegate([
-          const _ProfileHeader(),
-          const Gap(60),
-          const _ProfileInfos(),
-          const Gap(15),
-          const _ProfileActions(),
-          const Gap(15),
-          const _Resume(),
-          const Gap(15),
+    final appBarSize = AppBar().preferredSize.height;
+    return Scaffold(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Gap(appBarSize),
+          // Text("Profile Study v1"),
+          // Column(
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.all(16.0),
+          //       child: Row(
+          //         children: [
+          //           CircleAvatar(),
+          //           Gap(10),
+          //           Column(
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: [
+          //               Text('Profile Name'),
+          //               Text('Member Since: 2021',
+          //                   style: context.textTheme.noteStyle
+          //                       .copyWith(fontSize: 12)),
+          //             ],
+          //           ),
+          //           Spacer(),
+          //           ElevatedButton(onPressed: () {}, child: Text("See Profile"))
+          //         ],
+          //       ),
+          //     ),
+          //     Gap(20),
+          //     Container(
+          //       padding: const EdgeInsets.all(16),
+          //       decoration: BoxDecoration(color: hintColor.withOpacity(0.05)),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Column(
+          //             children: [
+          //               Text('89',
+          //                   style: context.textTheme.countStyle
+          //                       .copyWith(height: .8)),
+          //               Text('Jobs Completed',
+          //                   style: context.textTheme.noteStyle),
+          //             ],
+          //           ),
+          //           Gap(30),
+          //           Column(
+          //             children: [
+          //               Text('10',
+          //                   style: context.textTheme.countStyle
+          //                       .copyWith(height: .8)),
+          //               Text('Badges', style: context.textTheme.noteStyle),
+          //             ],
+          //           ),
+          //           Gap(30),
+          //           Column(
+          //             children: [
+          //               Text('678',
+          //                   style: context.textTheme.countStyle
+          //                       .copyWith(height: .8)),
+          //               Text('Total Points',
+          //                   style: context.textTheme.noteStyle),
+          //             ],
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     Gap(20),
+          //     //gradient linear progress bar
+          //     Padding(
+          //       padding: const EdgeInsets.all(16.0),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Row(
+          //                 children: [
+          //                   //construciton icon
+          //                   Icon(Icons.construction, color: primaryColor),
+          //                   Gap(5),
+          //                   Text('Master Plumber',
+          //                       style: context.textTheme.noteStyle),
+          //                 ],
+          //               ),
+          //               Text("2/3 applications completed",
+          //                   style: context.textTheme.noteStyle),
+          //             ],
+          //           ),
+          //           Gap(3),
+          //           Container(
+          //             height: 10,
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(10),
+          //               gradient: LinearGradient(
+          //                 colors: [primaryColor, secondaryColor],
+          //                 begin: Alignment.centerLeft,
+          //                 end: Alignment.centerRight,
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // Gap(20),
+          // Text("Profile Study v2"),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
               children: [
-                const Text("Skill", style: FontStyles.subheader),
-                GridView.count(
-                  padding: EdgeInsets.zero,
-                  childAspectRatio: .8,
-                  crossAxisCount: 3,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ...skills.map((e) => ProgressPercentage(skill: e))
-                  ],
-                )
+                CircleAvatar(),
+                Gap(10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Profile Name'),
+                      Gap(5),
+
+                      //rank
+                      Row(
+                        children: [
+                          Image(
+                              image: AssetImage(Assets.icon.crown.path),
+                              width: 20),
+                          Gap(5),
+                          Text("MASTER PLUMBER",
+                              style: context.textTheme.rankStyle),
+                        ],
+                      ),
+                      Gap(5),
+                      //linear progress bar
+                      Container(
+                        // width: MediaQuery.of(context).size.width * 0.85,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
+                              stops: [
+                                0.2,
+                                0.8
+                              ],
+                              colors: [
+                                primaryColor,
+                                hintColor.withOpacity(0.3)
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight),
+                        ),
+                      ),
+                      Gap(5),
+                      Row(
+                        children: [
+                          Text("LEVEL 2",
+                              style: context.textTheme.rankStyle.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: demphasize)),
+                          Spacer(),
+                          Text("12,034 points to go",
+                              style: context.textTheme.noteStyle),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          )
-        ]))
-      ],
-    );
-  }
-}
-
-class ProgressPercentage extends StatelessWidget {
-  const ProgressPercentage({super.key, required this.skill});
-  final Skill skill;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-          color: Colors.grey[100], borderRadius: BorderRadius.circular(40)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              //  create circular progress indicator
-              Center(
-                  child: Container(
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.white),
-                width: 50,
-                height: 50,
-                child: CircularProgressIndicator(
-                    value: skill.percentage,
-                    strokeWidth: 5,
-                    color: primaryColor),
-              )),
-              Center(
-                child: Text("${(skill.percentage * 100).toStringAsFixed(0)}%",
-                    style: FontStyles.caption),
-              ),
-            ],
           ),
-          const Gap(25),
-          Text(skill.skillName, style: FontStyles.caption)
-        ],
-      ),
-    );
-  }
-
-  double _getRandomValue() {
-    final random = Random();
-    return random.nextDouble();
-  }
-}
-
-class _Resume extends StatelessWidget {
-  const _Resume();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 25),
-      margin: const EdgeInsets.symmetric(horizontal: 32),
-      decoration: const BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "My Resume",
-                style: FontStyles.subheader.copyWith(color: Colors.white),
-              ),
-              Text("my_resume.pdf",
-                  style: FontStyles.tiny.copyWith(color: Colors.white))
-            ],
-          ),
-          const Spacer(),
-          const Icon(Ionicons.ellipsis_vertical, color: Colors.white)
-        ],
-      ),
-    );
-  }
-}
-
-class _ProfileActions extends StatelessWidget {
-  const _ProfileActions();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ...List.generate(
-            3,
-            (index) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                      radius: 30, backgroundColor: Colors.grey[200]),
-                ))
-      ],
-    );
-  }
-}
-
-class _ProfileInfos extends StatelessWidget {
-  const _ProfileInfos();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Text("Instrabaho", style: FontStyles.subheader),
-          Text("Flutter Dev"),
-          Gap(15),
-          Text(
-              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu.",
-              style: FontStyles.caption,
-              textAlign: TextAlign.center),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProfileHeader extends StatelessWidget {
-  const _ProfileHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          height: 180,
-          padding: const EdgeInsets.all(16),
-          decoration: const BoxDecoration(color: primaryColor),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SafeArea(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Gap(20),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(color: hintColor.withOpacity(0.05)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
                   children: [
-                    const SizedBox(),
-                    Text("Account",
+                    Text('89',
                         style:
-                            FontStyles.subheader.copyWith(color: Colors.white)),
-                    IconButton(
-                      icon: const Icon(Ionicons.ellipsis_vertical,
-                          color: Colors.white),
-                      onPressed: () {
-                        showMenu(
-                          context: context,
-                          position: const RelativeRect.fromLTRB(100, 100, 0, 0),
-                          items: [
-                            const PopupMenuItem<String>(
-                              value: 'logout',
-                              child: Text('Logout'),
-                            ),
-                          ],
-                          elevation: 8.0,
-                        ).then((value) {
-                          if (value == 'logout') {
-                            // ignore: use_build_context_synchronously
-                            context.goNamed(RouterNames.onboarding);
-                          }
-                        });
-                      },
-                    )
+                            context.textTheme.countStyle.copyWith(height: .8)),
+                    Text('Jobs Completed', style: context.textTheme.noteStyle),
                   ],
                 ),
-              )
-            ],
+                Gap(30),
+                Column(
+                  children: [
+                    Text('10',
+                        style:
+                            context.textTheme.countStyle.copyWith(height: .8)),
+                    Text('Badges', style: context.textTheme.noteStyle),
+                  ],
+                ),
+                Gap(30),
+                Column(
+                  children: [
+                    Text('678',
+                        style:
+                            context.textTheme.countStyle.copyWith(height: .8)),
+                    Text('Total Points', style: context.textTheme.noteStyle),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        Positioned(
-          bottom: -50,
-          left: 0,
-          right: 0,
-          child: Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-                border: Border.all(width: 3, color: Colors.white),
-                shape: BoxShape.circle,
-                color: primaryColor),
+          //settings items
+          Gap(20),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: fieldColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.person, color: hintColor),
+                      Gap(10),
+                      Text("Edit Profile", style: context.textTheme.noteStyle),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios, size: 15),
+                    ],
+                  ),
+                ),
+                Gap(10),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: fieldColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.notifications, color: hintColor),
+                      Gap(10),
+                      Text("Notifications", style: context.textTheme.noteStyle),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios, size: 15),
+                    ],
+                  ),
+                ),
+                Gap(10),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: fieldColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.lock, color: hintColor),
+                      Gap(10),
+                      Text("Change Password",
+                          style: context.textTheme.noteStyle),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios, size: 15),
+                    ],
+                  ),
+                ),
+                Gap(10),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: fieldColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.help, color: hintColor),
+                      Gap(10),
+                      Text("Help & Support",
+                          style: context.textTheme.noteStyle),
+                      Spacer(),
+                      Icon(Icons.arrow_forward_ios, size: 15),
+                    ],
+                  ),
+                ),
+                Gap(10),
+                GestureDetector(
+                  onTap: () {
+                    context.goNamed(RouterNames.onboarding);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: fieldColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout, color: hintColor),
+                        Gap(10),
+                        Text("Logout", style: context.textTheme.noteStyle),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios, size: 15),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }

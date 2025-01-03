@@ -1,22 +1,29 @@
 // create go router config
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
+import 'package:instrabaho_app/domain/data/worker_model.dart';
+import 'package:instrabaho_app/presentation/activity/activity_details_screen.dart';
+import 'package:instrabaho_app/presentation/activity/activity_screen.dart';
+import 'package:instrabaho_app/presentation/authentication/login/bloc/login_bloc.dart';
 import 'package:instrabaho_app/presentation/authentication/login/login_screen.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_otp.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_verification.dart';
 import 'package:instrabaho_app/presentation/authentication/profile/complete_profile_form.dart';
 import 'package:instrabaho_app/presentation/authentication/register/register_screen.dart';
 import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
+import 'package:instrabaho_app/presentation/forgot_password/bloc/forgot_password_bloc.dart';
 import 'package:instrabaho_app/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:instrabaho_app/presentation/forgot_password/forgot_password_verification.dart';
-import 'package:instrabaho_app/presentation/forgot_password/new_password.dart';
 import 'package:instrabaho_app/presentation/home/main_screen_wrapper.dart';
-import 'package:instrabaho_app/presentation/interviews/interviews_screen.dart';
 import 'package:instrabaho_app/presentation/jobs/job_details.dart';
+import 'package:instrabaho_app/presentation/jobs/job_map_finder.dart';
+import 'package:instrabaho_app/presentation/jobs/job_search.dart';
 import 'package:instrabaho_app/presentation/messages/message_conversation.dart';
 import 'package:instrabaho_app/presentation/messages/messages_screen.dart';
+import 'package:instrabaho_app/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:instrabaho_app/presentation/onboarding/onboarding_user_selection_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding_screen.dart';
 import 'package:instrabaho_app/presentation/practice/practice_screen.dart';
@@ -45,7 +52,10 @@ class AppRouterConifg {
       GoRoute(
         path: '/',
         name: RouterNames.splash,
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => OnboardingBloc(),
+          child: const SplashScreen(),
+        ),
       ),
       GoRoute(
           parentNavigatorKey: _rootNavigatorKey,
@@ -71,8 +81,10 @@ class AppRouterConifg {
                       GoRoute(
                         path: 'forgot_password',
                         name: RouterNames.forgot_password,
-                        builder: (context, state) =>
-                            const ForgotPasswordScreen(),
+                        builder: (context, state) => BlocProvider(
+                          create: (context) => ForgotPasswordBloc(),
+                          child: const ForgotPasswordScreen(),
+                        ),
                       ),
                       GoRoute(
                         path: 'forgot_password_verification',
@@ -80,13 +92,11 @@ class AppRouterConifg {
                         builder: (context, state) =>
                             const ForgotPasswordVerificationScreen(),
                       ),
-                      GoRoute(
-                        path: 'new_password',
-                        name: RouterNames.new_password,
-                        builder: (context, state) => const NewPasswordScreen(),
-                      ),
                     ],
-                    builder: (context, state) => const LoginScreen(),
+                    builder: (context, state) => BlocProvider(
+                      create: (context) => LoginBloc(),
+                      child: const LoginScreen(),
+                    ),
                   ),
                   GoRoute(
                     path: 'register',
@@ -132,40 +142,55 @@ class AppRouterConifg {
                     name: RouterNames.jobDetails,
                     builder: (context, state) => const JobDetailScreen(),
                   ),
+                  GoRoute(
+                      parentNavigatorKey: _rootNavigatorKey,
+                      path: 'job-search',
+                      name: RouterNames.jobSearch,
+                      builder: (context, state) => const JobSearchScreen(),
+                      routes: []),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'job-map-finder',
+                    name: RouterNames.jobMapFinder,
+                    builder: (context, state) => const JobMapFinderScreen(),
+                  ),
                 ]),
           ]),
           StatefulShellBranch(navigatorKey: _interviewsNavigatorKey, routes: [
             GoRoute(
-              path: '/interviews',
-              name: RouterNames.interviews,
-              builder: (context, state) => const Interviews(),
-            ),
+                path: '/activity',
+                name: RouterNames.activity,
+                builder: (context, state) => const ActivityScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'activity-details',
+                    name: RouterNames.activityDetails,
+                    builder: (context, state) => const ActivityDetailsScreen(),
+                  ),
+                ]),
           ]),
           StatefulShellBranch(
               observers: [AppNavigatorObserver()],
               navigatorKey: _messagesNavigatorKey,
-              initialLocation: '/messages',
               routes: [
                 GoRoute(
                   path: '/messages',
                   name: RouterNames.messages,
                   routes: [
                     GoRoute(
-                      path: 'message_conversation',
-                      name: RouterNames.messageConversation,
-                      builder: (context, state) =>
-                          const MessagesConversationScreen(),
-                    )
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: 'message_conversation',
+                        name: RouterNames.messageConversation,
+                        builder: (context, state) => MessagesConversationScreen())
                   ],
                   builder: (context, state) => Messages(),
                 ),
               ]),
           StatefulShellBranch(navigatorKey: _profileNavigatorKey, routes: [
             GoRoute(
-              path: '/profile',
-              name: RouterNames.profile,
-              builder: (context, state) => const Profile(),
-            ),
+                path: '/profile',
+                name: RouterNames.profile,
+                builder: (context, state) => const Profile()),
           ])
         ],
         builder: (context, state, navigationShell) =>

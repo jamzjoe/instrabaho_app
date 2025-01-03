@@ -30,16 +30,15 @@ class RegisterScreen extends StatelessWidget {
                     const Text("Create an account", style: FontStyles.header),
                     const Text("Please fill in the form to create an account"),
                     const Gap(20),
-                    const InstrabahoTextField(
+                    InstrabahoTextField(
                       hintText: "Username",
                     ),
                     const Gap(20),
-                    const InstrabahoTextField(
+                    InstrabahoTextField(
                       hintText: "Email address",
                     ),
                     const Gap(20),
-                    const InstrabahoTextField(
-                        hintText: "Password", isPassword: true),
+                    InstrabahoTextField(hintText: "Password", isPassword: true),
                     const Gap(30),
                     const InstrabahoButton(
                         label: 'CREATE ACCOUNT', isTwoTone: true),

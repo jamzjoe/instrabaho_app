@@ -10,3 +10,7 @@ sealed class OnboardingEvent extends Equatable {
 class OnboardingSplashScreenEvent extends OnboardingEvent {
   const OnboardingSplashScreenEvent();
 }
+
+class OnboardingBlocReset extends OnboardingEvent {
+  const OnboardingBlocReset();
+}

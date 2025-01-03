@@ -12,7 +12,9 @@ class InstrabahoButton extends StatelessWidget {
       this.horizontalMargin = 0.0,
       this.outline = false,
       this.borderColor,
-      this.bgColor});
+      this.bgColor,
+      this.height,
+      this.icon});
 
   final String label;
   final bool isTwoTone;
@@ -22,6 +24,8 @@ class InstrabahoButton extends StatelessWidget {
   final bool outline;
   final Color? borderColor;
   final Color? bgColor;
+  final double? height;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,7 @@ class InstrabahoButton extends StatelessWidget {
           margin: EdgeInsets.symmetric(
               vertical: verticalMargin, horizontal: horizontalMargin),
           width: double.infinity,
+          height: height,
           padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
           decoration: BoxDecoration(
             color: outline
@@ -52,11 +57,24 @@ class InstrabahoButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(60),
           ),
           child: Center(
-            child: Text(
-              label,
-              style: FontStyles.subheader.copyWith(
-                color: outline ? (borderColor ?? buttonColor) : Colors.white,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  const SizedBox(width: 8),
+                ],
+                Flexible(
+                  child: Text(
+                    label,
+                    overflow: TextOverflow.ellipsis,
+                    style: FontStyles.subheader.copyWith(
+                      color:
+                          outline ? (borderColor ?? buttonColor) : Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

@@ -39,5 +39,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         isOtpValid: event.isOtpValid,
       ));
     });
+
+    on<ProfileBlocReset>((event, emit) {
+      emit(const ProfileState());
+    });
   }
 }

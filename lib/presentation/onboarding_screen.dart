@@ -110,7 +110,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Expanded(
                   child: InstrabahoButton(
                       outline: true,
-                      label: 'Log in',
+                      label: 'Login',
                       onTap: () => context.pushNamed(RouterNames.login),
                       horizontalMargin: 0),
                 ),

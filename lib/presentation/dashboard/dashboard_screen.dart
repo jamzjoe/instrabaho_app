@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +7,8 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:instrabaho_app/presentation/dashboard/widgets/dashboard_search_bar.dart';
+import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({
@@ -16,43 +17,39 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        const SliverAppBar(
-          clipBehavior: Clip.none,
-          centerTitle: false,
-          toolbarHeight: 130,
-          floating: true,
-          flexibleSpace: Stack(
+    return Container(
+      color: Colors.white,
+      child: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
             clipBehavior: Clip.none,
-            children: [
-              DashboardHeader(),
-              Positioned(
-                  right: 10,
-                  left: 10,
-                  bottom: -20,
-                  child: DashboardSearchBar()),
-            ],
-          ),
-        ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          const SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            centerTitle: false,
+            toolbarHeight: 130,
+            floating: true,
+            flexibleSpace: Stack(
+              clipBehavior: Clip.none,
               children: [
-                _JobCount(),
-                Gap(20),
-                _Categories(),
-                Gap(20),
-                _RecommendedJobs(),
-                Gap(20),
-                _RecentJobs()
+                DashboardHeader(),
+                Positioned(
+                    right: 10,
+                    left: 10,
+                    bottom: -20,
+                    child: DashboardSearchBar()),
               ],
             ),
           ),
-        ]))
-      ],
+          //create text field for posting job and list of recent jobs
+          SliverToBoxAdapter(
+              child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const _Categories(),
+              ],
+            ),
+          )),
+        ],
+      ),
     );
   }
 }
@@ -206,14 +203,14 @@ class _Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const Text("Categories", style: FontStyles.subheader),
-          const Gap(5),
+          const Gap(10),
           GridView.count(
+            padding: EdgeInsets.symmetric(vertical: 15),
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             mainAxisSpacing: 10,
@@ -230,9 +227,87 @@ class _Categories extends StatelessWidget {
                           width: .5, color: Colors.grey.withOpacity(0.4)),
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       color: lastIndex ? Colors.grey[200] : Colors.white),
+                  child: Icon(
+                    Icons.work_outline_outlined,
+                    color: hintColor,
+                  ),
                 );
               })
             ],
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _RowItem(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Balance", style: context.textTheme.hintStyle),
+                      Row(
+                        children: [
+                          Text("Php 1,000.00"),
+                          Gap(10),
+                          //wallet icon
+                          Icon(Icons.account_balance_wallet,
+                              color: primaryColor.withOpacity(0.5))
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                _RowItem(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Instrabaho Rewards",
+                              style: context.textTheme.hintStyle),
+                          Gap(5),
+                          Text("68"),
+                        ],
+                      ),
+                      Gap(10),
+                      //reward icon
+                      Icon(Icons.card_giftcard,
+                          color: primaryColor.withOpacity(0.5))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Gap(20),
+          Text("Discover jobs you may like", style: context.textTheme.subTitle),
+          const Gap(10),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _RowItem(
+                    child: Container(
+                  height: 100,
+                  width: 300,
+                )),
+                _RowItem(
+                    child: Container(
+                  height: 100,
+                  width: 300,
+                )),
+                _RowItem(
+                    child: Container(
+                  height: 100,
+                  width: 300,
+                )),
+                _RowItem(
+                    child: Container(
+                  height: 100,
+                  width: 300,
+                )),
+              ],
+            ),
           )
         ],
       ),
@@ -240,89 +315,20 @@ class _Categories extends StatelessWidget {
   }
 }
 
-class _JobCount extends StatelessWidget {
-  const _JobCount();
+class _RowItem extends StatelessWidget {
+  const _RowItem({required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          _JobCountInfo(
-              iconBackDrop: Icon(
-                Ionicons.checkmark_circle_outline,
-                size: 120,
-              ),
-              label: 'Jobs Applied',
-              countValue: 40,
-              backgroundColor: primaryColor),
-          Gap(10),
-          _JobCountInfo(
-              iconBackDrop: Icon(
-                CupertinoIcons.question_circle,
-                size: 120,
-              ),
-              label: 'Interviews',
-              countValue: 2,
-              backgroundColor: secondaryColor),
-        ],
-      ),
-    );
-  }
-}
-
-class _JobCountInfo extends StatelessWidget {
-  const _JobCountInfo(
-      {required this.countValue,
-      required this.label,
-      required this.backgroundColor,
-      required this.iconBackDrop});
-
-  final String label;
-  final int countValue;
-  final Color backgroundColor;
-  final Widget iconBackDrop;
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Container(
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Stack(
-          clipBehavior: Clip.hardEdge,
-          children: [
-            Container(
-              height: 130,
-            ),
-            Positioned(
-              bottom: -30,
-              right: -20,
-              child: ColorFiltered(
-                  colorFilter:
-                      ColorFilter.mode(backgroundColor, BlendMode.lighten),
-                  child: iconBackDrop),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('$countValue',
-                      style: FontStyles.header
-                          .copyWith(color: Colors.white, fontSize: 36)),
-                  Text(label,
-                      style: FontStyles.caption.copyWith(color: Colors.white))
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return Container(
+      margin: const EdgeInsets.only(right: 15),
+      padding: const EdgeInsets.all(16),
+      child: child,
+      decoration: BoxDecoration(
+          border: Border.all(width: .5, color: Colors.grey.withOpacity(0.4)),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          color: Colors.white),
     );
   }
 }
@@ -336,13 +342,7 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.hardEdge,
-      decoration: const BoxDecoration(
-        color: primaryColor,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-      ),
+      decoration: const BoxDecoration(color: secondaryColor),
       padding: const EdgeInsets.all(20.0),
       child: SafeArea(
         child: Row(
@@ -359,40 +359,15 @@ class DashboardHeader extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const CircleAvatar(radius: 30)
+            GestureDetector(
+                onTap: () {
+                  GoRouter.of(context).goNamed(RouterNames.profile);
+                  BlocProvider.of<BottomNavCubit>(context)
+                      .selectTab(BottomNavTab.profile);
+                },
+                child: const CircleAvatar(
+                    radius: 30, backgroundColor: Colors.white))
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class DashboardSearchBar extends StatelessWidget {
-  const DashboardSearchBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.2),
-          spreadRadius: 1,
-          blurRadius: 5,
-          offset: const Offset(0, 3),
-        ),
-      ]),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "Search job here...",
-          prefixIcon: const Icon(Icons.search),
-          fillColor: Colors.white,
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
-          ),
         ),
       ),
     );

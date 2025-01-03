@@ -1,197 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:instrabaho_app/constant/router/router_names.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:instrabaho_app/constant/inputs/email_input.dart';
+import 'package:instrabaho_app/constant/styles/font_styles.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_back_button.dart';
+import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
+import 'package:instrabaho_app/presentation/common/widgets/instrabaho_textfield.dart';
+import 'package:instrabaho_app/presentation/forgot_password/bloc/forgot_password_bloc.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  String? _selectedOption;
-
-  @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: screenHeight * 0.1,
-        ),
-        child: ListView(
-          children: <Widget>[
-            const Center(
-              child: Text(
-                "Forgot Password?",
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: screenHeight * 0.01,
-                horizontal: screenWidth * 0.15,
-              ),
-              child: Image.asset(
-                'assets/images/forgot_password_img.jpg',
-                width: screenWidth * 0.6,
-                height: screenHeight * 0.3,
-                fit: BoxFit.contain,
-              ),
-            ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 16.0,
-              ),
-              child: Center(
-                child: Text(
-                  'Where would you like to receive a \nVerification Code?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      body: CustomScrollView(
+        slivers: [
+          const SliverAppBar(
+            centerTitle: false,
+            leading: CustomBackButton(),
+          ),
+          SliverFillRemaining(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedOption = 'sms';
-                      });
+                  const Gap(50 - 16),
+                  Text("Forgot your password?",
+                      style: context.textTheme.appBarFont),
+                  const Gap(8),
+                  Text("Enter your email address to reset your password",
+                      style: context.textTheme.noteStyle),
+                  const Gap(20),
+                  BlocSelector<ForgotPasswordBloc, ForgotPasswordState,
+                      EmailInput?>(
+                    selector: (state) {
+                      return state.emailInput;
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: _selectedOption == 'sms'
-                              ? Colors.blueAccent
-                              : Colors.black,
-                          width: 3.0,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.message,
-                            color: _selectedOption == 'sms'
-                                ? Colors.blueAccent
-                                : Colors.black,
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text(
-                                  'via SMS',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.black54),
-                                ),
-                                Text(
-                                  '+63 949*****99',
-                                  style: TextStyle(
-                                    color: _selectedOption == 'sms'
-                                        ? Colors.blueAccent
-                                        : Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    builder: (context, state) {
+                      return InstrabahoTextField(
+                        errorText: state?.validator(state.value) ==
+                                EmailInputValidationError.invalid
+                            ? "Invalid email"
+                            : null,
+                        hintText: "Email address",
+                        onChanged: (p0) {
+                          BlocProvider.of<ForgotPasswordBloc>(context)
+                              .add(ForgotPasswordEmailChanged(p0));
+                        },
+                      );
+                    },
                   ),
-                  const SizedBox(height: 16),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedOption = 'email';
-                      });
+                  const Gap(20),
+                  BlocSelector<ForgotPasswordBloc, ForgotPasswordState, bool?>(
+                    selector: (state) {
+                      return state.emailInput?.isValid;
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: _selectedOption == 'email'
-                              ? Colors.blueAccent
-                              : Colors.black,
-                          width: 3.0,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.email_rounded,
-                            color: _selectedOption == 'email'
-                                ? Colors.blueAccent
-                                : Colors.black,
-                          ),
-
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text(
-                                  'via Email',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.black54),
-                                ),
-                                Text(
-                                  'andyd****@email.com',
-                                  style: TextStyle(
-                                    color: _selectedOption == 'email'
-                                        ? Colors.blueAccent
-                                        : Colors.black54,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    builder: (context, state) {
+                      final isValid = state ?? false;
+                      return InstrabahoButton(
+                          label: 'Send reset link',
+                          onTap: isValid ? () {} : null);
+                    },
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: screenHeight * 0.03,
-                horizontal: screenWidth * 0.05,
-              ),
-              child: SizedBox(
-                width: screenWidth * 0.9,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () => context
-                      .pushNamed(RouterNames.forgot_password_verification),
-                  child: const Text('Next',
-                      style: TextStyle(fontSize: 14, color: Colors.white)),
-                ),
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

@@ -12,6 +12,10 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
         emit(const OnboardingState(isSplashScreen: false));
       });
     });
+
+    on<OnboardingBlocReset>((event, emit) {
+      emit(const OnboardingState(isSplashScreen: true));
+    });
     add(const OnboardingSplashScreenEvent());
   }
 }

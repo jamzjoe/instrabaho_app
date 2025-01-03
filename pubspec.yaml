@@ -50,12 +50,24 @@ dependencies:
   phone_form_field: ^10.0.2
   pinput: ^5.0.0
   formz: ^0.8.0
+  percent_indicator: ^4.2.4
+  talker_bloc_logger: ^4.5.2
+  google_maps_flutter: ^2.10.0
+  draggable_home: ^1.0.5
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.4.6
   flutter_gen_runner: null
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/launcher_icon.png"
+  min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -79,6 +91,7 @@ flutter:
     - assets/images/
     - assets/svg/
     - assets/json/
+    - assets/icon/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

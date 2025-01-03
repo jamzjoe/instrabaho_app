@@ -60,3 +60,7 @@ class ProfileOnOTPValidation extends ProfileEvent {
   @override
   List<Object> get props => [otp, isOtpValid ?? false];
 }
+
+class ProfileBlocReset extends ProfileEvent {
+  const ProfileBlocReset();
+}

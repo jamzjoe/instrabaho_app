@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:instrabaho_app/presentation/common/widgets/instrabaho_textfield.dart';
 
 class InboxItem {
   final String profile;
@@ -48,57 +48,26 @@ class Messages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FittedBox(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(60))),
-            child: Row(
-              children: [
-                const Icon(
-                  Ionicons.add,
-                  color: Colors.white,
-                ),
-                const Gap(5),
-                Text("New Chat",
-                    style: FontStyles.caption.copyWith(color: Colors.white))
-              ],
-            ),
-          ),
-        ),
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                floating: true,
-                snap: true,
-                toolbarHeight: 145,
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                flexibleSpace: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text("Messages", style: FontStyles.subheader),
-                      Gap(15),
-                      MessagesSearchBar()
-                    ],
-                  ),
-                ),
-              ),
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [...List.generate(20, (index) => const Message())],
-                )
-              ]))
-            ],
-          ),
-        ));
+        body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+            floating: true,
+            snap: true,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            title: Text('Messages', style: context.textTheme.titleLarge)),
+        SliverList(
+            delegate: SliverChildListDelegate([
+          MessagesSearchBar(),
+          ListView(
+            padding: const EdgeInsets.all(8),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [...List.generate(20, (index) => const Message())],
+          )
+        ]))
+      ],
+    ));
 
     // );
   }
@@ -112,6 +81,7 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => context.pushNamed(RouterNames.messageConversation),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -123,7 +93,7 @@ class Message extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('John Doe', style: FontStyles.subheader),
-                const Text('Hello there!', style: FontStyles.caption),
+                const Text('Hello there!', style: FontStyles.noteStyle),
                 const Gap(5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,29 +126,6 @@ class MessagesSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.circular(99.0), boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 1,
-          blurRadius: 7,
-          offset: const Offset(0, 3), // changes position of shadow
-        ),
-      ]),
-      child: TextField(
-        decoration: InputDecoration(
-          focusColor: Colors.white,
-          fillColor: Colors.white,
-          filled: true,
-          hintText: 'Search message..',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(99.0),
-          ),
-        ),
-      ),
-    );
+    return InstrabahoTextField(hintText: 'Search for messages');
   }
 }

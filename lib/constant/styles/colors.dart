@@ -8,3 +8,4 @@ const buttonColor = Color(0xff389FCB);
 const hintColor = Color(0xffA5A5A5);
 const fieldColor = Color(0xffF5F5F5);
 const noteColor = Color(0xff757575);
+const textColor = Color.fromARGB(255, 58, 54, 54);

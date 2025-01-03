@@ -9,6 +9,20 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconGen {
+  const $AssetsIconGen();
+
+  /// File path: assets/icon/crown.png
+  AssetGenImage get crown => const AssetGenImage('assets/icon/crown.png');
+
+  /// File path: assets/icon/launcher_icon.png
+  AssetGenImage get launcherIcon =>
+      const AssetGenImage('assets/icon/launcher_icon.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [crown, launcherIcon];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -50,11 +64,17 @@ class $AssetsImagesGen {
 class $AssetsJsonGen {
   const $AssetsJsonGen();
 
+  /// File path: assets/json/handshake.json
+  String get handshake => 'assets/json/handshake.json';
+
   /// File path: assets/json/instrabaho-splash copy.json
   String get instrabahoSplashCopy => 'assets/json/instrabaho-splash copy.json';
 
+  /// File path: assets/json/sent.json
+  String get sent => 'assets/json/sent.json';
+
   /// List of all assets
-  List<String> get values => [instrabahoSplashCopy];
+  List<String> get values => [handshake, instrabahoSplashCopy, sent];
 }
 
 class $AssetsSvgGen {
@@ -68,6 +88,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/custom_back_button.svg
   String get customBackButton => 'assets/svg/custom_back_button.svg';
+
+  /// File path: assets/svg/handshake.svg
+  String get handshake => 'assets/svg/handshake.svg';
 
   /// File path: assets/svg/instrabaho_logo.svg
   String get instrabahoLogo => 'assets/svg/instrabaho_logo.svg';
@@ -83,6 +106,7 @@ class $AssetsSvgGen {
         coins,
         customBackBtn,
         customBackButton,
+        handshake,
         instrabahoLogo,
         jobSeekerHuman,
         recruiterHuman
@@ -92,6 +116,7 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
+  static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();

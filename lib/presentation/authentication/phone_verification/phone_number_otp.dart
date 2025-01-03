@@ -11,6 +11,7 @@ import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
 import 'package:instrabaho_app/presentation/authentication/profile/bloc/profile_bloc.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_single_child_scroll_view.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
 import 'package:pinput/pinput.dart';
 
@@ -58,85 +59,78 @@ class _PhoneNumberOtpState extends State<PhoneNumberOtp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Gap(50), //back icon
-          GestureDetector(
-              onTap: () {
-                context.pop();
-              },
-              child: SvgPicture.asset(Assets.svg.customBackButton)),
-          const Gap(40),
-          Text("Verify your mobile number",
-              style: context.textTheme.appBarFont),
-          const Gap(8),
-          Text(
-              "We’ve sent a 6-digit code to +63 912 345 6789. Enter it below to verify your account.",
-              style: context.textTheme.noteStyle),
-          const Gap(32),
-          Center(
-            child: Pinput(
-              onChanged: (value) {
-                log("OTP value: $value");
-                BlocProvider.of<ProfileBloc>(context).add(
-                    ProfileOnOTPValidation(
-                        otp: value,
-                        isOtpValid: value.isNotEmpty && value.length == 6));
-              },
-              length: 6,
-              defaultPinTheme: PinTheme(
-                  constraints:
-                      const BoxConstraints.tightFor(width: 55, height: 55),
-                  decoration: BoxDecoration(
-                    color: fieldColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: hintColor),
-                  )),
-              focusedPinTheme: PinTheme(
-                  constraints:
-                      const BoxConstraints.tightFor(width: 55, height: 55),
-                  decoration: BoxDecoration(
-                    color: const Color(0xffE6E6E6),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: secondaryColor),
-                  )),
-            ),
-          ),
-          const Gap(16),
-          Center(
-              child: GestureDetector(
+        body: CustomSingleChildScrollView(
+      context: context,
+      childrenWidget: [
+        GestureDetector(
             onTap: () {
-              if (_start == 0) {
-                startTimer();
-              }
+              context.pop();
             },
-            child: Text(
-                _start > 0
-                    ? 'Didn’t receive the code? Resend in $_start seconds.'
-                    : 'Resend code',
-                style: context.textTheme.instruction),
-          )),
-          const Spacer(),
-          BlocSelector<ProfileBloc, ProfileState, bool>(
-            selector: (state) {
-              return state.isOtpValid;
+            child: SvgPicture.asset(Assets.svg.customBackButton)),
+        const Gap(40),
+        Text("Verify your mobile number", style: context.textTheme.appBarFont),
+        const Gap(8),
+        Text(
+            "We’ve sent a 6-digit code to +63 912 345 6789. Enter it below to verify your account.",
+            style: context.textTheme.noteStyle),
+        const Gap(32),
+        Center(
+          child: Pinput(
+            onChanged: (value) {
+              log("OTP value: $value");
+              BlocProvider.of<ProfileBloc>(context).add(ProfileOnOTPValidation(
+                  otp: value,
+                  isOtpValid: value.isNotEmpty && value.length == 6));
             },
-            builder: (context, state) {
-              return InstrabahoButton(
-                  label: 'Verify',
-                  onTap: state
-                      ? () {
-                          context.pushNamed(RouterNames.completeProfile);
-                        }
-                      : null);
-            },
+            length: 6,
+            defaultPinTheme: PinTheme(
+                constraints:
+                    const BoxConstraints.tightFor(width: 55, height: 55),
+                decoration: BoxDecoration(
+                  color: fieldColor,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: hintColor),
+                )),
+            focusedPinTheme: PinTheme(
+                constraints:
+                    const BoxConstraints.tightFor(width: 55, height: 55),
+                decoration: BoxDecoration(
+                  color: const Color(0xffE6E6E6),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: secondaryColor),
+                )),
           ),
-          const Gap(50)
-        ],
-      ),
+        ),
+        const Gap(16),
+        Center(
+            child: GestureDetector(
+          onTap: () {
+            if (_start == 0) {
+              startTimer();
+            }
+          },
+          child: Text(
+              _start > 0
+                  ? 'Didn’t receive the code? Resend in $_start seconds.'
+                  : 'Resend code',
+              style: context.textTheme.instruction),
+        )),
+        const Spacer(),
+        BlocSelector<ProfileBloc, ProfileState, bool>(
+          selector: (state) {
+            return state.isOtpValid;
+          },
+          builder: (context, state) {
+            return InstrabahoButton(
+                label: 'Verify',
+                onTap: state
+                    ? () {
+                        context.pushNamed(RouterNames.completeProfile);
+                      }
+                    : null);
+          },
+        ),
+      ],
     ));
   }
 }

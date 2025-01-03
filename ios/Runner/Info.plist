@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Instrabaho App</string>
+	<string>Instrabaho</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -45,5 +45,14 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+        <string>This app needs location when in use</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>Always and when in use!</string>
+        <key>NSLocationUsageDescription</key>
+        <string>Older devices need location.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>Can I have location always?</string>
 </dict>
 </plist>
