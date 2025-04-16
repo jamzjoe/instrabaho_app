@@ -5,12 +5,19 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
 import 'package:instrabaho_app/presentation/onboarding/bloc/onboarding_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:splash_master/splash_master.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return SplashMaster.lottie(
+        customNavigation: () {
+          context.pushReplacementNamed(RouterNames.onboarding);
+        },
+        // nextScreen: OnboardingScreen(),
+        source: AssetSource(Assets.json.instrabahoSplashCopy));
     return BlocListener<OnboardingBloc, OnboardingState>(
       listenWhen: (previous, current) =>
           previous.isSplashScreen != current.isSplashScreen,

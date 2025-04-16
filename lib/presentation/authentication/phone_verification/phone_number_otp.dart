@@ -87,9 +87,9 @@ class _PhoneNumberOtpState extends State<PhoneNumberOtp> {
                 constraints:
                     const BoxConstraints.tightFor(width: 55, height: 55),
                 decoration: BoxDecoration(
-                  color: fieldColor,
+                  color: C.fieldColor,
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: hintColor),
+                  border: Border.all(color: C.hintColor),
                 )),
             focusedPinTheme: PinTheme(
                 constraints:
@@ -97,7 +97,7 @@ class _PhoneNumberOtpState extends State<PhoneNumberOtp> {
                 decoration: BoxDecoration(
                   color: const Color(0xffE6E6E6),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: secondaryColor),
+                  border: Border.all(color: C.blue600),
                 )),
           ),
         ),

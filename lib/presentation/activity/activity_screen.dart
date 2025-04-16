@@ -4,35 +4,217 @@ import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
+import 'package:instrabaho_app/gen/assets.gen.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_text.dart';
 
-class ActivityScreen extends StatelessWidget {
+class ActivityScreen extends StatefulWidget {
   const ActivityScreen({
     super.key,
   });
 
   @override
+  State<ActivityScreen> createState() => _ActivityScreenState();
+}
+
+class _ActivityScreenState extends State<ActivityScreen> {
+  int _selectedChipIndex = 0;
+  final List<String> _filterChips = [
+    'All',
+    'Completed',
+    'Cancelled',
+    'Ongoing'
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    final appBarSize = AppBar().preferredSize.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate([
-              Gap(appBarSize),
-              const _InterviewHeader(),
-              const Gap(20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child:
-                    Text('Recent Activity', style: context.textTheme.subTitle),
-              ),
-              ...List.generate(20, (index) {
-                return RecentJobs();
-              })
-            ]),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: CustomText.appBar(context, "History"),
+        centerTitle: false,
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _filterChips.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FilterChip(
+                    backgroundColor: Colors.grey.shade100,
+                    showCheckmark: false,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    selected: _selectedChipIndex == index,
+                    label: Text(
+                      _filterChips[index],
+                      style: context.textTheme.bodyMedium?.copyWith(
+                          color: _selectedChipIndex == index
+                              ? Colors.white
+                              : C.blue600,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    onSelected: (bool selected) {
+                      setState(() {
+                        _selectedChipIndex = index;
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _buildHistoryGroup('Today', [
+                  _buildHistoryItem(
+                    'Plumbing Repair',
+                    'John Doe',
+                    '₱500',
+                    '10:00 AM',
+                    'Completed',
+                  ),
+                  _buildHistoryItem(
+                    'Electrical Installation',
+                    'Jane Smith',
+                    '₱800',
+                    '2:30 PM',
+                    'Ongoing',
+                  ),
+                ]),
+                const Gap(20),
+                _buildHistoryGroup('Yesterday', [
+                  _buildHistoryItem(
+                    'Carpentry Work',
+                    'Mike Johnson',
+                    '₱1200',
+                    '9:00 AM',
+                    'Cancelled',
+                  ),
+                  _buildHistoryItem(
+                    'House Cleaning',
+                    'Sarah Wilson',
+                    '₱400',
+                    '11:00 AM',
+                    'Completed',
+                  ),
+                ]),
+              ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildHistoryGroup(String title, List<Widget> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: context.textTheme.subTitle),
+        const Gap(10),
+        ...items,
+      ],
+    );
+  }
+
+  Widget _buildHistoryItem(
+    String position,
+    String name,
+    String amount,
+    String time,
+    String status,
+  ) {
+    Color statusColor;
+    switch (status.toLowerCase()) {
+      case 'completed':
+        statusColor = Colors.green;
+        break;
+      case 'ongoing':
+        statusColor = Colors.orange;
+        break;
+      case 'cancelled':
+        statusColor = Colors.red;
+        break;
+      default:
+        statusColor = Colors.grey;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        // Mark as read when tapped
+        // Todo
+        // Mark as read
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: C.blue600.withAlpha(30),
+              ),
+              child: Image(image: AssetImage(Assets.icon.launcherIcon.path)),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //status
+                  Text(status,
+                      style: context.textTheme.noteStyle.copyWith(
+                          color: statusColor, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text(
+                        position,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: C.textColor,
+                        ),
+                      ),
+                      const Spacer(),
+                      //date and time
+                      Text(
+                        amount,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: C.textColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "$name · $time",
+                    style: TextStyle(
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -142,7 +324,7 @@ class CustomButton extends StatelessWidget {
       children: [
         Text(text, style: context.textTheme.noteStyle),
         Gap(5),
-        Icon(icon, color: secondaryColor),
+        Icon(icon, color: C.blue700),
       ],
     );
   }
@@ -161,14 +343,14 @@ class _InterviewHeader extends StatelessWidget {
           const Spacer(),
           Container(
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.08),
+              color: C.orange600.withOpacity(0.08),
               borderRadius: BorderRadius.circular(90),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
                 //history
-                Icon(Icons.history, color: primaryColor),
+                Icon(Icons.history, color: C.orange600),
                 const Gap(10),
                 Text('History', style: context.textTheme.noteStyle),
               ],
@@ -228,7 +410,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
                 const Gap(10),
                 DecoratedBox(
                     decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(0.2),
+                        color: C.orange600.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(10)),
                     child: const Padding(
                       padding:

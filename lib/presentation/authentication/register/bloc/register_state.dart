@@ -1,10 +1,14 @@
 part of 'register_bloc.dart';
 
-sealed class RegisterState extends Equatable {
-  const RegisterState();
-  
-  @override
-  List<Object> get props => [];
-}
+class RegisterState extends Equatable {
+  const RegisterState({this.registerProgress});
+  final double? registerProgress;
 
-final class RegisterInitial extends RegisterState {}
+  RegisterState copyWith({double? registerProgress}) {
+    return RegisterState(
+        registerProgress: registerProgress ?? this.registerProgress);
+  }
+
+  @override
+  List<Object?> get props => [registerProgress];
+}

@@ -37,24 +37,29 @@ class PhoneNumberVerification extends StatelessWidget {
         const Gap(32),
         PhoneFormField(
             autofocus: true,
+            onTapOutside: (p0) {
+              // hide keyboard
+              FocusScope.of(context).unfocus();
+            },
             decoration: InputDecoration(
               prefixStyle: context.textTheme.caption,
               counterStyle: context.textTheme.caption,
               suffixStyle: context.textTheme.caption,
-              hintStyle: context.textTheme.caption.copyWith(color: hintColor),
-              labelStyle: context.textTheme.caption.copyWith(color: hintColor),
+              hintStyle: context.textTheme.caption.copyWith(color: C.hintColor),
+              labelStyle:
+                  context.textTheme.caption.copyWith(color: C.hintColor),
               labelText: 'Phone Number',
               hintText: 'Enter your phone number',
-              fillColor: fieldColor,
+              fillColor: C.fieldColor,
               filled: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: fieldColor)),
+                  borderSide: BorderSide(color: C.blue600)),
               enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: fieldColor)),
+                  borderSide: BorderSide(color: C.hintColor)),
               border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: fieldColor)),
+                  borderSide: BorderSide(color: C.fieldColor)),
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
             style: context.textTheme.caption, // Set the input text style

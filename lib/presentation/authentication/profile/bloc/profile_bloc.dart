@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:instrabaho_app/constant/inputs/email_input.dart';
 import 'package:instrabaho_app/constant/inputs/names_input.dart';
+import 'package:instrabaho_app/constant/inputs/password_input.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -42,6 +43,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     on<ProfileBlocReset>((event, emit) {
       emit(const ProfileState());
+    });
+
+    on<ProfileOnChangedPassword>((event, emit) {
+      emit(state.copyWith(password: PasswordInput.dirty(event.password)));
     });
   }
 }

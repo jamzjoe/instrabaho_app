@@ -97,7 +97,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(state.copyWith(
           activeHint: result[0].position,
           workers: result,
-          searchResult: result.map((e) => e.name).toList(),
+          searchResult: [result[0].position.toLowerCase()],
           findingPercentage: 1.0,
           jobSearchStatus: JobSearchStatus.finding));
     });

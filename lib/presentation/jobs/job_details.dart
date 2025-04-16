@@ -17,7 +17,7 @@ class JobDetailScreen extends StatelessWidget {
                 child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: secondaryColor,
+                        backgroundColor: C.blue600,
                         foregroundColor: Colors.white),
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
@@ -29,7 +29,7 @@ class JobDetailScreen extends StatelessWidget {
           title: const Text('Job Details'),
           actions: [
             IconButton(
-              icon: const Icon(Icons.bookmark_border, color: hintColor),
+              icon: const Icon(Icons.bookmark_border, color: C.hintColor),
               onPressed: () {},
             )
           ],
@@ -61,8 +61,7 @@ class JobDetailScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50.0),
                           border: Border.all(color: const Color(0xFFD2CFE8))),
-                      child:
-                          Icon(Ionicons.heart, color: primaryColor, size: 30))
+                      child: Icon(Ionicons.heart, color: C.orange600, size: 30))
                 ],
               ),
               Text("Posted 1 hour ago", style: context.textTheme.noteStyle),

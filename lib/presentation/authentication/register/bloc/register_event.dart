@@ -6,3 +6,12 @@ sealed class RegisterEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class RegisterOnChangeProgress extends RegisterEvent {
+  final double progress;
+
+  RegisterOnChangeProgress(this.progress);
+
+  @override
+  List<Object> get props => [progress];
+}

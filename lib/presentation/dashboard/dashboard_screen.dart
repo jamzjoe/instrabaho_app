@@ -3,12 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gradient_borders/gradient_borders.dart';
+import 'package:instrabaho_app/constant/data/category_mock_data.dart';
+import 'package:instrabaho_app/constant/data/feautured_mock_data.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
-import 'package:instrabaho_app/presentation/dashboard/widgets/dashboard_search_bar.dart';
-import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_text.dart';
+import 'package:instrabaho_app/presentation/dashboard/bloc/work_status_bloc.dart';
+import 'package:instrabaho_app/presentation/dashboard/bloc/work_status_event.dart';
+import 'package:instrabaho_app/presentation/dashboard/widgets/upload_id.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({
@@ -17,358 +22,565 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: CustomScrollView(
-        slivers: [
-          const SliverAppBar(
-            clipBehavior: Clip.none,
-            centerTitle: false,
-            toolbarHeight: 130,
-            floating: true,
-            flexibleSpace: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                DashboardHeader(),
-                Positioned(
-                    right: 10,
-                    left: 10,
-                    bottom: -20,
-                    child: DashboardSearchBar()),
-              ],
-            ),
-          ),
-          //create text field for posting job and list of recent jobs
-          SliverToBoxAdapter(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const _Categories(),
-              ],
-            ),
-          )),
-        ],
-      ),
-    );
-  }
-}
-
-class _RecentJobs extends StatelessWidget {
-  const _RecentJobs();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
+    final appBarSize = AppBar().preferredSize.height;
+    return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
             children: [
-              Text("Recent Jobs", style: FontStyles.subheader),
-              Spacer(),
-              Text("View All", style: FontStyles.caption),
-            ],
-          ),
-        ),
-        const Gap(10),
-        Container(
-            color: Colors.white,
-            child: Column(
-              children: [
-                ...List.generate(
-                    20,
-                    (index) => GestureDetector(
-                          onTap: () {
-                            context.pushNamed(RouterNames.jobDetails);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(25),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      color: primaryColor.withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
-                                const Gap(10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text("Job Title",
-                                        style: FontStyles.caption),
-                                    const Text('Company Name',
-                                        style: FontStyles.caption),
-                                    const Gap(5),
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(Assets.svg.coins),
-                                        const Gap(5),
-                                        const Text("Php 1,000 - 2,000",
-                                            style: FontStyles.caption),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ))
-              ],
-            ))
-      ],
-    );
-  }
-}
-
-class _RecommendedJobs extends StatelessWidget {
-  const _RecommendedJobs();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text("Recommended Jobs", style: FontStyles.subheader),
-        ),
-        SizedBox(
-          height: 125,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ...List.generate(
-                    20,
-                    (index) => Container(
-                          padding: const EdgeInsets.all(15),
-                          margin: const EdgeInsets.only(
-                              right: 10, top: 10, bottom: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ]),
-                          child: Row(
+              Container(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Gap(appBarSize),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        children: [
+                          Row(
                             children: [
-                              const CircleAvatar(),
-                              const Gap(10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Job Title",
-                                      style: FontStyles.caption),
-                                  const Text('Company Name',
-                                      style: FontStyles.caption),
-                                  const Gap(5),
                                   Row(
                                     children: [
-                                      SvgPicture.asset(Assets.svg.coins),
-                                      const Gap(5),
-                                      const Text("Php 1,000 - 2,000",
-                                          style: FontStyles.caption),
+                                      Text("Hello, Juan!",
+                                          style: context.textTheme.welcomeText),
+                                      const Gap(10),
+                                      Image.asset(Assets.images.wavingHand.path,
+                                          width: 20),
                                     ],
-                                  )
+                                  ),
+                                  Text("Need a skilled worker today?"),
                                 ],
                               ),
                             ],
                           ),
-                        )),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class _Categories extends StatelessWidget {
-  const _Categories();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Gap(10),
-          GridView.count(
-            padding: EdgeInsets.symmetric(vertical: 15),
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            crossAxisCount: 4,
-            children: [
-              ...List.generate(8, (index) {
-                final lastIndex = index == 7;
-                return Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: .5, color: Colors.grey.withOpacity(0.4)),
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      color: lastIndex ? Colors.grey[200] : Colors.white),
-                  child: Icon(
-                    Icons.work_outline_outlined,
-                    color: hintColor,
-                  ),
-                );
-              })
+                          Spacer(),
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.white,
+                                child: Icon(Icons.notifications_outlined,
+                                    size: 24, color: Colors.black),
+                              ),
+                              Positioned(
+                                right: -5,
+                                top: -10,
+                                child: Container(
+                                  padding: EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    '3',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    UploadID(),
+                    Gap(20),
+                    SizedBox(
+                      height: 200,
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        scrollDirection: Axis.horizontal,
+                        child: IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  GoRouter.of(context)
+                                      .pushNamed(RouterNames.jobStatus);
+                                  BlocProvider.of<WorkStatusBloc>(context)
+                                      .add(StartWorkStatus());
+                                },
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    return Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      margin: EdgeInsets.only(right: 8),
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: GradientBoxBorder(
+                                            width: .5,
+                                            gradient: LinearGradient(colors: [
+                                              Colors.green,
+                                              C.blue600,
+                                            ])),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(16)),
+                                      ),
+                                      child: IntrinsicHeight(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Gap(0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(24.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CustomText.subTitle(context,
+                                                      'Worker is on the way to your location',
+                                                      color: Colors.green),
+                                                  Gap(8),
+                                                  CustomText.title(context,
+                                                      'Bathroom Deep Cleaning'),
+                                                  Gap(8),
+                                                  Row(
+                                                    children: [
+                                                      CustomText.notesBold(
+                                                          context,
+                                                          "Assigned to:"),
+                                                      CustomText.notes(context,
+                                                          '2 hours ago'),
+                                                    ],
+                                                  ),
+                                                  Gap(8),
+                                                  Row(
+                                                    children: [
+                                                      CustomText.notesBold(
+                                                          context, "Location:"),
+                                                      CustomText.notes(context,
+                                                          'BGC Taguig'),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              width: double.infinity,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 16, vertical: 8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  CustomText.buttonText(context,
+                                                      "View Worker's Progress",
+                                                      color: Colors.white),
+                                                  Spacer(),
+                                                  SvgPicture.asset(
+                                                      Assets.icon.arrowRight)
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => GoRouter.of(context)
+                                    .pushNamed(RouterNames.jobPost),
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    return Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      margin: EdgeInsets.only(right: 8),
+                                      width: MediaQuery.of(context).size.width -
+                                          40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: GradientBoxBorder(
+                                            width: .5,
+                                            gradient: LinearGradient(colors: [
+                                              C.orange600,
+                                              C.blue600,
+                                            ])),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(16)),
+                                      ),
+                                      child: IntrinsicHeight(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Gap(0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(24.0),
+                                              child: Row(
+                                                children: [
+                                                  Image.asset(Assets
+                                                      .images.needHelp.path),
+                                                  Gap(8),
+                                                  Flexible(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText.title(
+                                                          context,
+                                                          'Need more help?',
+                                                        ),
+                                                        CustomText.notes(
+                                                            context,
+                                                            'You can still post a job while your current job is on progress'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                GoRouter.of(context).pushNamed(
+                                                    RouterNames.jobPost);
+                                              },
+                                              child: Container(
+                                                width: double.infinity,
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 16,
+                                                    vertical: 8),
+                                                decoration: BoxDecoration(
+                                                  color: C.blue600,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    CustomText.buttonText(
+                                                        context, "Post a Job",
+                                                        color: Colors.white),
+                                                    Spacer(),
+                                                    SvgPicture.asset(
+                                                        Assets.icon.arrowRight)
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Gap(20),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).pushNamed(RouterNames.jobStatus);
+                        },
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Container(
+                              clipBehavior: Clip.antiAlias,
+                              width: MediaQuery.of(context).size.width - 40,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: GradientBoxBorder(
+                                    width: .5,
+                                    gradient: LinearGradient(colors: [
+                                      Colors.lightBlue,
+                                      C.blue600,
+                                    ])),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16)),
+                              ),
+                              child: IntrinsicHeight(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            Assets.images.paintBrush.path,
+                                          ),
+                                          Flexible(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(24.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CustomText.subTitle(context,
+                                                      'Need a Helping Hand?'),
+                                                  Gap(8),
+                                                  CustomText.notes(
+                                                    context,
+                                                    'You haven’t posted any jobs yet. Find skilled workers for your home repairs, maintenance, and more.',
+                                                    fontSize: 13,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.lightBlue,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          CustomText.buttonText(
+                                              context, "Post a Job",
+                                              color: Colors.white),
+                                          Spacer(),
+                                          SvgPicture.asset(
+                                              Assets.icon.arrowRight)
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    Gap(60)
+                  ],
+                ),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(Assets.images.bg2.path),
+                        alignment: Alignment.topCenter,
+                        fit: BoxFit.cover)),
+              ),
             ],
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _RowItem(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Balance", style: context.textTheme.hintStyle),
-                      Row(
-                        children: [
-                          Text("Php 1,000.00"),
-                          Gap(10),
-                          //wallet icon
-                          Icon(Icons.account_balance_wallet,
-                              color: primaryColor.withOpacity(0.5))
-                        ],
-                      ),
-                    ],
+          Transform.translate(
+            offset: Offset(0, -30),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: .5, color: C.hintColor),
+                                borderRadius: BorderRadius.circular(16)),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      Assets.icon.wallet.path,
+                                      width: 25,
+                                    ),
+                                    Gap(8),
+                                    Text("P500.00",
+                                        style: context.textTheme.moneyText),
+                                  ],
+                                ),
+                                Gap(8),
+                                Text("Balance"),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Gap(16),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: .5, color: C.hintColor),
+                                borderRadius: BorderRadius.circular(16)),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      Assets.icon.reward.path,
+                                      width: 25,
+                                    ),
+                                    Gap(8),
+                                    Text("20",
+                                        style: context.textTheme.moneyText),
+                                  ],
+                                ),
+                                Gap(8),
+                                Text("Points"),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                _RowItem(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Instrabaho Rewards",
-                              style: context.textTheme.hintStyle),
-                          Gap(5),
-                          Text("68"),
-                        ],
-                      ),
-                      Gap(10),
-                      //reward icon
-                      Icon(Icons.card_giftcard,
-                          color: primaryColor.withOpacity(0.5))
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: CustomText.title(context, 'Top Categories'),
                   ),
-                )
-              ],
-            ),
-          ),
-          const Gap(20),
-          Text("Discover jobs you may like", style: context.textTheme.subTitle),
-          const Gap(10),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _RowItem(
-                    child: Container(
-                  height: 100,
-                  width: 300,
-                )),
-                _RowItem(
-                    child: Container(
-                  height: 100,
-                  width: 300,
-                )),
-                _RowItem(
-                    child: Container(
-                  height: 100,
-                  width: 300,
-                )),
-                _RowItem(
-                    child: Container(
-                  height: 100,
-                  width: 300,
-                )),
-              ],
+                  SingleChildScrollView(
+                    padding: EdgeInsets.all(10),
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ...List.generate(categories.length + 1, (index) {
+                          if (index == categories.length) {
+                            return LayoutBuilder(
+                              builder: (context, constraints) {
+                                return Container(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.all(8),
+                                        width: 100,
+                                        height: 100,
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                              Assets.categories.allCategory,
+                                              width: 32,
+                                              height: 32),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: C.blue600.withAlpha(50),
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      Gap(8),
+                                      Text("All",
+                                          style: context.textTheme.bodyStyle),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          final category = categories[index];
+                          return LayoutBuilder(
+                            builder: (context, constraints) {
+                              return Container(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.all(8),
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image:
+                                                AssetImage(category.imageUrl),
+                                            fit: BoxFit.cover),
+                                        color: C.hintColor.withAlpha(50),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    Gap(8),
+                                    Text("${category.name}",
+                                        style: context.textTheme.bodyStyle),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+                  Gap(10),
+                  SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ...List.generate(featuredData.length, (i) {
+                          final featured = featuredData[i];
+                          //gap 16 left ecxcept first index
+                          return LayoutBuilder(
+                            builder: (context, constraints) {
+                              return Container(
+                                margin: EdgeInsets.only(left: i == 0 ? 0 : 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CustomText.title(
+                                        context, '${featured.name}'),
+                                    Gap(8),
+                                    Image.asset(featured.imageUrl)
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class _RowItem extends StatelessWidget {
-  const _RowItem({required this.child});
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 15),
-      padding: const EdgeInsets.all(16),
-      child: child,
-      decoration: BoxDecoration(
-          border: Border.all(width: .5, color: Colors.grey.withOpacity(0.4)),
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          color: Colors.white),
-    );
-  }
-}
-
-class DashboardHeader extends StatelessWidget {
-  const DashboardHeader({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      decoration: const BoxDecoration(color: secondaryColor),
-      padding: const EdgeInsets.all(20.0),
-      child: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Good morning",
-                    style: FontStyles.subheader.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.white)),
-                Text("User",
-                    style: FontStyles.caption.copyWith(color: Colors.white)),
-              ],
-            ),
-            const Spacer(),
-            GestureDetector(
-                onTap: () {
-                  GoRouter.of(context).goNamed(RouterNames.profile);
-                  BlocProvider.of<BottomNavCubit>(context)
-                      .selectTab(BottomNavTab.profile);
-                },
-                child: const CircleAvatar(
-                    radius: 30, backgroundColor: Colors.white))
-          ],
-        ),
       ),
     );
   }

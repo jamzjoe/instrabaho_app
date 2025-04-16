@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
 import 'package:instrabaho_app/presentation/common/widgets/custom_text_rich.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
+import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -118,14 +120,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Expanded(
                   child: InstrabahoButton(
                       label: 'Sign up',
-                      onTap: () => context
-                          .pushNamed(RouterNames.phoneNumberVerification),
+                      onTap: () =>
+                          context.pushNamed(RouterNames.emailVerification),
                       horizontalMargin: 0),
                 ),
-                const Gap(16)
+                const Gap(16),
               ],
             ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 5),
+          GestureDetector(
+            onTap: () {
+              if (_currentPage < 3) {
+                _pageController?.animateToPage(3,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn);
+              } else {
+                // Navigate to the next screen or perform an action
+                context.pushNamed(RouterNames.home);
+                BlocProvider.of<BottomNavCubit>(context)
+                    .selectTab(BottomNavTab.home);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(_currentPage < 3 ? "Skip" : "Continue as Guest"),
+            ),
+          ),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -151,7 +172,7 @@ class _Inidcator extends StatelessWidget {
             width: _currentPage == i ? 26 : 4,
             height: 4,
             decoration: BoxDecoration(
-              color: _currentPage == i ? demphasize : Colors.grey,
+              color: _currentPage == i ? C.textColor : Colors.grey,
               borderRadius: BorderRadius.circular(4),
             ),
           ),

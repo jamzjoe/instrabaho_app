@@ -104,8 +104,8 @@ class JobSearchScreen extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 16.0, vertical: 8.0),
                                 decoration: BoxDecoration(
-                                  color:
-                                      secondaryColor, // Replace with your desired pastel color
+                                  color: C
+                                      .blue600, // Replace with your desired pastel color
                                   borderRadius: BorderRadius.circular(180),
                                 ),
                                 child: Center(
@@ -114,24 +114,26 @@ class JobSearchScreen extends StatelessWidget {
                                           .copyWith(color: Colors.white)),
                                 ),
                               ),
-                              ...searchHints.map((hint) {
-                                return GestureDetector(
-                                  onTap: () async {
-                                    // await _searchWorker(context, hint['job']);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.all(4.0),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 8.0),
-                                    decoration: BoxDecoration(
-                                      color: secondaryColor.withOpacity(
-                                          0.1), // Replace with your desired pastel color
-                                      borderRadius: BorderRadius.circular(180),
+                              if (searchHints.isNotEmpty)
+                                ...searchHints.map((hint) {
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      // await _searchWorker(context, hint['job']);
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.all(4.0),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0, vertical: 8.0),
+                                      decoration: BoxDecoration(
+                                        color: C.blue600.withOpacity(
+                                            0.1), // Replace with your desired pastel color
+                                        borderRadius:
+                                            BorderRadius.circular(180),
+                                      ),
+                                      child: Center(child: Text(hint['job'])),
                                     ),
-                                    child: Center(child: Text(hint['job'])),
-                                  ),
-                                );
-                              }).toList()
+                                  );
+                                }).toList()
                             ],
                           ),
                         ),
@@ -142,9 +144,7 @@ class JobSearchScreen extends StatelessWidget {
                 ),
                 BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
                   final activeQuery = state.searchQuery;
-                  final hideWhen = state.searchResult.isEmpty ||
-                      state.searchResult.length == searchHints.length &&
-                          activeQuery != '';
+                  final hideWhen = state.searchResult.isEmpty;
                   if (hideWhen) {
                     return Visibility(
                       visible: activeQuery.isNotEmpty || activeQuery != '',
@@ -156,7 +156,7 @@ class JobSearchScreen extends StatelessWidget {
                               text: activeQuery,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: secondaryColor),
+                                  color: C.blue600),
                             ),
                           ],
                         ),

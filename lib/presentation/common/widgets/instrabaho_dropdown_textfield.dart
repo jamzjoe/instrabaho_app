@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
+import 'package:ionicons/ionicons.dart';
 
 class InstrabahoDropdownTextField extends StatefulWidget {
   const InstrabahoDropdownTextField({
@@ -63,20 +64,23 @@ class _InstrabahoDropdownTextFieldState
             decoration: InputDecoration(
               labelText: widget.labelText,
               errorText: widget.errorText,
-              fillColor: widget.fieldColor ?? fieldColor,
+              fillColor: widget.fieldColor ?? C.fieldColor,
               filled: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: -5, vertical: 10),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.fieldColor ?? fieldColor),
+                borderSide:
+                    BorderSide(color: widget.fieldColor ?? C.fieldColor),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.fieldColor ?? fieldColor),
+                borderSide:
+                    BorderSide(color: widget.fieldColor ?? C.fieldColor),
               ),
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.fieldColor ?? fieldColor),
+                borderSide:
+                    BorderSide(color: widget.fieldColor ?? C.fieldColor),
               ),
-              hintStyle: context.textTheme.caption.copyWith(color: hintColor),
+              hintStyle: context.textTheme.caption.copyWith(color: C.hintColor),
             ),
             items: widget.options!
                 .map((option) => DropdownMenuItem<String>(
@@ -85,7 +89,15 @@ class _InstrabahoDropdownTextFieldState
                     ))
                 .toList(),
             hint: Text(widget.hintText ?? '',
-                style: context.textTheme.noteStyle.copyWith(color: hintColor)),
+                style: context.textTheme.noteStyle
+                    .copyWith(color: C.hintColor, fontSize: 14)),
+            iconStyleData: IconStyleData(
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child:
+                    Icon(Ionicons.chevron_down, color: C.textColor, size: 20),
+              ),
+            ), // Custom icon
           )
         : TextFormField(
             controller: _controller,
@@ -97,20 +109,23 @@ class _InstrabahoDropdownTextFieldState
               labelText: widget.labelText,
               errorText: widget.errorText,
               hintText: widget.hintText,
-              fillColor: widget.fieldColor ?? fieldColor,
+              fillColor: widget.fieldColor ?? C.fieldColor,
               filled: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.fieldColor ?? fieldColor),
+                borderSide:
+                    BorderSide(color: widget.fieldColor ?? C.fieldColor),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.fieldColor ?? fieldColor),
+                borderSide:
+                    BorderSide(color: widget.fieldColor ?? C.fieldColor),
               ),
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.fieldColor ?? fieldColor),
+                borderSide:
+                    BorderSide(color: widget.fieldColor ?? C.fieldColor),
               ),
-              hintStyle: context.textTheme.caption.copyWith(color: hintColor),
+              hintStyle: context.textTheme.caption.copyWith(color: C.hintColor),
             ),
           );
   }

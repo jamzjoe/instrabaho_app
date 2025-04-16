@@ -11,6 +11,7 @@ class ProfileState extends Equatable {
       this.firstName,
       this.lastName,
       this.email,
+      this.password,
       this.profileCreationStatus = ProfileCreationStatus.initial});
 
   final String phoneNumber;
@@ -23,6 +24,8 @@ class ProfileState extends Equatable {
   final NameInput? lastName;
   final EmailInput? email;
 
+  final PasswordInput? password;
+
   final ProfileCreationStatus profileCreationStatus;
 
   ProfileState copyWith(
@@ -33,6 +36,7 @@ class ProfileState extends Equatable {
       NameInput? firstName,
       NameInput? lastName,
       EmailInput? email,
+      PasswordInput? password,
       ProfileCreationStatus? profileCreationStatus}) {
     return ProfileState(
         phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -42,6 +46,7 @@ class ProfileState extends Equatable {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         email: email ?? this.email,
+        password: password ?? this.password,
         profileCreationStatus:
             profileCreationStatus ?? this.profileCreationStatus);
   }
@@ -55,6 +60,7 @@ class ProfileState extends Equatable {
         firstName,
         lastName,
         email,
+        password,
         profileCreationStatus
       ];
 }

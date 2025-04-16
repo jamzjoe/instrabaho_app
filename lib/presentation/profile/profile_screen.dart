@@ -43,7 +43,7 @@ class Profile extends StatelessWidget {
           //     Gap(20),
           //     Container(
           //       padding: const EdgeInsets.all(16),
-          //       decoration: BoxDecoration(color: hintColor.withOpacity(0.05)),
+          //       decoration: BoxDecoration(color: C.hintColor.withOpacity(0.05)),
           //       child: Row(
           //         mainAxisAlignment: MainAxisAlignment.center,
           //         children: [
@@ -91,7 +91,7 @@ class Profile extends StatelessWidget {
           //               Row(
           //                 children: [
           //                   //construciton icon
-          //                   Icon(Icons.construction, color: primaryColor),
+          //                   Icon(Icons.construction, color: C.orange600),
           //                   Gap(5),
           //                   Text('Master Plumber',
           //                       style: context.textTheme.noteStyle),
@@ -107,7 +107,7 @@ class Profile extends StatelessWidget {
           //             decoration: BoxDecoration(
           //               borderRadius: BorderRadius.circular(10),
           //               gradient: LinearGradient(
-          //                 colors: [primaryColor, secondaryColor],
+          //                 colors: [C.orange600, secondaryColor],
           //                 begin: Alignment.centerLeft,
           //                 end: Alignment.centerRight,
           //               ),
@@ -124,7 +124,9 @@ class Profile extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                CircleAvatar(),
+                CircleAvatar(
+                  backgroundImage: AssetImage(Assets.categories.category1.path),
+                ),
                 Gap(10),
                 Expanded(
                   child: Column(
@@ -157,8 +159,8 @@ class Profile extends StatelessWidget {
                                 0.8
                               ],
                               colors: [
-                                primaryColor,
-                                hintColor.withOpacity(0.3)
+                                C.orange600,
+                                C.hintColor.withOpacity(0.3)
                               ],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight),
@@ -170,7 +172,7 @@ class Profile extends StatelessWidget {
                           Text("LEVEL 2",
                               style: context.textTheme.rankStyle.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: demphasize)),
+                                  color: C.textColor)),
                           Spacer(),
                           Text("12,034 points to go",
                               style: context.textTheme.noteStyle),
@@ -185,7 +187,7 @@ class Profile extends StatelessWidget {
           Gap(20),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: hintColor.withOpacity(0.05)),
+            decoration: BoxDecoration(color: C.hintColor.withOpacity(0.05)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -227,12 +229,12 @@ class Profile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: fieldColor,
+                    color: C.fieldColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.person, color: hintColor),
+                      Icon(Icons.person, color: C.hintColor),
                       Gap(10),
                       Text("Edit Profile", style: context.textTheme.noteStyle),
                       Spacer(),
@@ -244,12 +246,12 @@ class Profile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: fieldColor,
+                    color: C.fieldColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.notifications, color: hintColor),
+                      Icon(Icons.notifications, color: C.hintColor),
                       Gap(10),
                       Text("Notifications", style: context.textTheme.noteStyle),
                       Spacer(),
@@ -261,12 +263,12 @@ class Profile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: fieldColor,
+                    color: C.fieldColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.lock, color: hintColor),
+                      Icon(Icons.lock, color: C.hintColor),
                       Gap(10),
                       Text("Change Password",
                           style: context.textTheme.noteStyle),
@@ -279,12 +281,12 @@ class Profile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: fieldColor,
+                    color: C.fieldColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.help, color: hintColor),
+                      Icon(Icons.help, color: C.hintColor),
                       Gap(10),
                       Text("Help & Support",
                           style: context.textTheme.noteStyle),
@@ -296,17 +298,40 @@ class Profile extends StatelessWidget {
                 Gap(10),
                 GestureDetector(
                   onTap: () {
-                    context.goNamed(RouterNames.onboarding);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Logout"),
+                          content: Text("Are you sure you want to logout?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                context.goNamed(RouterNames.onboarding);
+                              },
+                              child: Text("Logout"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: fieldColor,
+                      color: C.fieldColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.logout, color: hintColor),
+                        Icon(Icons.logout, color: C.hintColor),
                         Gap(10),
                         Text("Logout", style: context.textTheme.noteStyle),
                         Spacer(),

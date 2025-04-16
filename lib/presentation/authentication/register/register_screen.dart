@@ -46,7 +46,7 @@ class RegisterScreen extends StatelessWidget {
                     const Text(
                         "By signing up, you agree to our Terms of Service"),
                     const Spacer(),
-                    Divider(color: hintColor.withOpacity(0.3)),
+                    Divider(color: C.hintColor.withOpacity(0.3)),
                     const Spacer(),
                     Center(
                       child: GestureDetector(

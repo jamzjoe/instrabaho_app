@@ -64,3 +64,12 @@ class ProfileOnOTPValidation extends ProfileEvent {
 class ProfileBlocReset extends ProfileEvent {
   const ProfileBlocReset();
 }
+
+class ProfileOnChangedPassword extends ProfileEvent {
+  const ProfileOnChangedPassword(this.password);
+
+  final String password;
+
+  @override
+  List<Object> get props => [password];
+}

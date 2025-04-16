@@ -10,7 +10,7 @@ class ActivityDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: fieldColor,
+      backgroundColor: C.fieldColor,
       bottomSheet: Container(
           padding: EdgeInsets.all(16),
           height: 90,

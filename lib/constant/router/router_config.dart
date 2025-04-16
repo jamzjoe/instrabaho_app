@@ -7,28 +7,33 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/domain/data/worker_model.dart';
 import 'package:instrabaho_app/presentation/activity/activity_details_screen.dart';
 import 'package:instrabaho_app/presentation/activity/activity_screen.dart';
+import 'package:instrabaho_app/presentation/app/app_bloc.dart';
+import 'package:instrabaho_app/presentation/authentication/email_verificaton/email_verfication.dart';
 import 'package:instrabaho_app/presentation/authentication/login/bloc/login_bloc.dart';
 import 'package:instrabaho_app/presentation/authentication/login/login_screen.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_otp.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_verification.dart';
 import 'package:instrabaho_app/presentation/authentication/profile/complete_profile_form.dart';
-import 'package:instrabaho_app/presentation/authentication/register/register_screen.dart';
 import 'package:instrabaho_app/presentation/dashboard/dashboard_screen.dart';
-import 'package:instrabaho_app/presentation/forgot_password/bloc/forgot_password_bloc.dart';
-import 'package:instrabaho_app/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:instrabaho_app/presentation/forgot_password/forgot_password_verification.dart';
+import 'package:instrabaho_app/presentation/dashboard/pages/job_post_recommendation_screen.dart';
+import 'package:instrabaho_app/presentation/dashboard/pages/job_post_review_worker_screen.dart';
+import 'package:instrabaho_app/presentation/dashboard/pages/job_post_screen.dart';
+import 'package:instrabaho_app/presentation/dashboard/pages/job_status_screen.dart';
+import 'package:instrabaho_app/presentation/dashboard/pages/qr_scanner_screen.dart';
+import 'package:instrabaho_app/presentation/dashboard/pages/worker_location_screen.dart';
 import 'package:instrabaho_app/presentation/home/main_screen_wrapper.dart';
+import 'package:instrabaho_app/presentation/jobs/job_confirmed.dart';
 import 'package:instrabaho_app/presentation/jobs/job_details.dart';
 import 'package:instrabaho_app/presentation/jobs/job_map_finder.dart';
 import 'package:instrabaho_app/presentation/jobs/job_search.dart';
 import 'package:instrabaho_app/presentation/messages/message_conversation.dart';
 import 'package:instrabaho_app/presentation/messages/messages_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding/bloc/onboarding_bloc.dart';
-import 'package:instrabaho_app/presentation/onboarding/onboarding_user_selection_screen.dart';
 import 'package:instrabaho_app/presentation/onboarding_screen.dart';
 import 'package:instrabaho_app/presentation/practice/practice_screen.dart';
 import 'package:instrabaho_app/presentation/profile/profile_screen.dart';
 
+import '../../presentation/dashboard/pages/job_post_confirmation_screen.dart';
 import '../../presentation/onboarding/splash_screen.dart';
 
 class AppRouterConifg {
@@ -41,6 +46,7 @@ class AppRouterConifg {
       GlobalKey<NavigatorState>(debugLabel: 'messages_key');
   static final _profileNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'profile_key');
+
   static final GoRouter routerConfig = GoRouter(
     initialLocation: "/",
     debugLogDiagnostics: true,
@@ -58,144 +64,198 @@ class AppRouterConifg {
         ),
       ),
       GoRoute(
-          parentNavigatorKey: _rootNavigatorKey,
-          path: '/onboarding',
-          name: RouterNames.onboarding,
-          builder: (context, state) => const OnboardingScreen(),
-          routes: [
-            GoRoute(
-                path: 'user-selection',
-                name: RouterNames.onboardingUserSelection,
-                builder: (context, state) =>
-                    const OnboardingUserSelectionScreen(),
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/onboarding',
+        name: RouterNames.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
+        routes: [
+          GoRoute(
+            path: 'email_verification',
+            name: RouterNames.emailVerification,
+            builder: (context, state) => const EmailVerification(),
+          ),
+          GoRoute(
+            path: 'phone_number_verification',
+            name: RouterNames.phoneNumberVerification,
+            routes: [
+              GoRoute(
+                path: 'otp',
+                name: RouterNames.otp,
                 routes: [
                   GoRoute(
-                    path: 'login',
-                    name: RouterNames.login,
-                    routes: [
-                      GoRoute(
-                        path: 'practice_screen',
-                        name: RouterNames.practiceScreen,
-                        builder: (context, state) => const PracticeScreen(),
-                      ),
-                      GoRoute(
-                        path: 'forgot_password',
-                        name: RouterNames.forgot_password,
-                        builder: (context, state) => BlocProvider(
-                          create: (context) => ForgotPasswordBloc(),
-                          child: const ForgotPasswordScreen(),
-                        ),
-                      ),
-                      GoRoute(
-                        path: 'forgot_password_verification',
-                        name: RouterNames.forgot_password_verification,
-                        builder: (context, state) =>
-                            const ForgotPasswordVerificationScreen(),
-                      ),
-                    ],
-                    builder: (context, state) => BlocProvider(
-                      create: (context) => LoginBloc(),
-                      child: const LoginScreen(),
-                    ),
+                    path: 'complete_profile',
+                    name: RouterNames.completeProfile,
+                    builder: (context, state) => CompleteProfileForm(),
                   ),
-                  GoRoute(
-                    path: 'register',
-                    name: RouterNames.register,
-                    routes: [
-                      GoRoute(
-                        path: 'phone_number_verification',
-                        name: RouterNames.phoneNumberVerification,
-                        routes: [
-                          GoRoute(
-                            path: 'otp',
-                            name: RouterNames.otp,
-                            routes: [
-                              GoRoute(
-                                path: 'complete_profile',
-                                name: RouterNames.completeProfile,
-                                builder: (context, state) =>
-                                    CompleteProfileForm(),
-                              ),
-                            ],
-                            builder: (context, state) => const PhoneNumberOtp(),
-                          ),
-                        ],
-                        builder: (context, state) =>
-                            const PhoneNumberVerification(),
-                      ),
-                    ],
-                    builder: (context, state) => const RegisterScreen(),
-                  ),
-                ]),
-          ]),
+                ],
+                builder: (context, state) => const PhoneNumberOtp(),
+              ),
+            ],
+            builder: (context, state) => const PhoneNumberVerification(),
+          ),
+          GoRoute(
+            path: 'login',
+            name: RouterNames.login,
+            routes: [
+              GoRoute(
+                path: 'practice_screen',
+                name: RouterNames.practiceScreen,
+                builder: (context, state) => const PracticeScreen(),
+              ),
+              // GoRoute(
+              //   path: 'face_detection_test',
+              //   name: RouterNames.faceDetectionTest,
+              //   builder: (context, state) => const FaceDetectionScreen(),
+              // ),
+              // GoRoute(
+              //   path: 'face_detection_match_test',
+              //   name: RouterNames.faceDetectionMatchTest,
+              //   builder: (context, state) => const MatchFaceDetection(),
+              // ),
+            ],
+            builder: (context, state) => BlocProvider(
+              create: (context) => LoginBloc(authBloc: context.read<AppBloc>()),
+              child: const LoginScreen(),
+            ),
+          ),
+        ],
+      ),
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: _rootNavigatorKey,
         branches: [
-          StatefulShellBranch(navigatorKey: _homeBranchNavigatorKey, routes: [
-            GoRoute(
+          StatefulShellBranch(
+            navigatorKey: _homeBranchNavigatorKey,
+            routes: [
+              GoRoute(
                 path: '/home',
                 name: RouterNames.home,
                 builder: (context, state) => const Dashboard(),
                 routes: [
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'job-post',
+                    name: RouterNames.jobPost,
+                    builder: (context, state) => const JobPostScreen(),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'job-status',
+                    name: RouterNames.jobStatus,
+                    builder: (context, state) => const JobStatusScreen(),
+                    routes: [
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: 'worker_location',
+                        name: RouterNames.workerLocation,
+                        builder: (context, state) =>
+                            const WorkerLocationScreen(),
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: 'review-worker',
+                        name: RouterNames.reviewRoker,
+                        builder: (context, state) =>
+                            const JobPostReviewWorkerScreen(),
+                      ),
+                      GoRoute(
+                        parentNavigatorKey: _rootNavigatorKey,
+                        path: 'qr-scanner',
+                        name: RouterNames.qrScanner,
+                        builder: (context, state) => const QRScannerScreen(),
+                      ),
+                    ],
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'job-post-confirmation-screen',
+                    name: RouterNames.jobPostConfirmationScreen,
+                    builder: (context, state) =>
+                        const JobPostConfirmationScreen(),
+                  ),
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'job-post-recommendation-screen',
+                    name: RouterNames.jobPostRecommendationScreen,
+                    builder: (context, state) =>
+                        const JobPostRecommendationScreen(),
+                  ),
                   GoRoute(
                     path: 'job-details',
                     name: RouterNames.jobDetails,
                     builder: (context, state) => const JobDetailScreen(),
                   ),
                   GoRoute(
-                      parentNavigatorKey: _rootNavigatorKey,
-                      path: 'job-search',
-                      name: RouterNames.jobSearch,
-                      builder: (context, state) => const JobSearchScreen(),
-                      routes: []),
+                    path: 'job-search',
+                    name: RouterNames.jobSearch,
+                    builder: (context, state) => const JobSearchScreen(),
+                  ),
                   GoRoute(
-                    parentNavigatorKey: _rootNavigatorKey,
                     path: 'job-map-finder',
                     name: RouterNames.jobMapFinder,
                     builder: (context, state) => const JobMapFinderScreen(),
                   ),
-                ]),
-          ]),
-          StatefulShellBranch(navigatorKey: _interviewsNavigatorKey, routes: [
-            GoRoute(
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'job-confirmed-screen',
+                    name: RouterNames.jobConfirmedScreen,
+                    builder: (context, state) => const JobConfirmedScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _interviewsNavigatorKey,
+            routes: [
+              GoRoute(
                 path: '/activity',
                 name: RouterNames.activity,
                 builder: (context, state) => const ActivityScreen(),
                 routes: [
                   GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
                     path: 'activity-details',
                     name: RouterNames.activityDetails,
                     builder: (context, state) => const ActivityDetailsScreen(),
                   ),
-                ]),
-          ]),
+                ],
+              ),
+            ],
+          ),
           StatefulShellBranch(
-              observers: [AppNavigatorObserver()],
-              navigatorKey: _messagesNavigatorKey,
-              routes: [
-                GoRoute(
-                  path: '/messages',
-                  name: RouterNames.messages,
-                  routes: [
-                    GoRoute(
-                        parentNavigatorKey: _rootNavigatorKey,
-                        path: 'message_conversation',
-                        name: RouterNames.messageConversation,
-                        builder: (context, state) => MessagesConversationScreen())
-                  ],
-                  builder: (context, state) => Messages(),
-                ),
-              ]),
-          StatefulShellBranch(navigatorKey: _profileNavigatorKey, routes: [
-            GoRoute(
+            navigatorKey: _messagesNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/messages',
+                name: RouterNames.messages,
+                builder: (context, state) => MessagesScreen(),
+                routes: [
+                  GoRoute(
+                    parentNavigatorKey: _rootNavigatorKey,
+                    path: 'message_conversation',
+                    name: RouterNames.messageConversation,
+                    builder: (context, state) => MessageConversation(
+                        worker: WorkerModel(
+                            name: 'John Doe', position: 'Plumber', rating: 5)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _profileNavigatorKey,
+            routes: [
+              GoRoute(
                 path: '/profile',
                 name: RouterNames.profile,
-                builder: (context, state) => const Profile()),
-          ])
+                builder: (context, state) => const Profile(),
+              ),
+            ],
+          ),
         ],
         builder: (context, state, navigationShell) =>
             MainScreenWrapper(navigationShell: navigationShell),
-      )
+      ),
     ],
   );
 }

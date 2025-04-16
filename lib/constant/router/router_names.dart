@@ -22,4 +22,17 @@ class RouterNames {
   static const String completeProfile = 'complete_profile';
   static const String jobSearch = 'job_search';
   static const String jobMapFinder = 'job_map_finder_screen';
+  static const String emailVerification = 'email_verification';
+  static const String faceDetectionTest = 'face_detection_test';
+  static const String faceDetectionMatchTest = 'face_detection_match_test';
+  static const String jobPost = 'job_post';
+  static const String jobPostConfirmationScreen =
+      'job_post_confirmation_screen';
+  static const String jobPostRecommendationScreen =
+      'job_post_recommendation_screen';
+  static const String jobConfirmedScreen = 'job_confirmed_screen';
+  static const String jobStatus = 'job_status';
+  static const String workerLocation = 'worker_location';
+  static const String qrScanner = 'qr-scanner';
+  static const String reviewRoker = 'review_roker';
 }

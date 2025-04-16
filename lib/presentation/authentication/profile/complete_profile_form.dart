@@ -1,17 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instrabaho_app/constant/inputs/email_input.dart';
 import 'package:instrabaho_app/constant/inputs/names_input.dart';
+import 'package:instrabaho_app/constant/inputs/password_input.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/gen/assets.gen.dart';
 import 'package:instrabaho_app/presentation/authentication/profile/bloc/profile_bloc.dart';
 import 'package:instrabaho_app/presentation/common/widgets/custom_single_child_scroll_view.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
+import 'package:instrabaho_app/presentation/common/widgets/instrabaho_dropdown_textfield.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_textfield.dart';
 import 'package:instrabaho_app/presentation/home/cubit/bottom_nav_cubit.dart';
 
@@ -26,24 +26,8 @@ class CompleteProfileForm extends StatelessWidget {
       listener: (context, state) {
         if (state.profileCreationStatus == ProfileCreationStatus.success) {
           //show modal
-          showCupertinoModalPopup(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return CupertinoAlertDialog(
-                title: const Text("Profile created successfully"),
-                content: const Text("You can now start using Instrabaho"),
-                actions: [
-                  CupertinoDialogAction(
-                    onPressed: () {
-                      context.goNamed(RouterNames.home);
-                    },
-                    child: const Text("Continue"),
-                  )
-                ],
-              );
-            },
-          );
+          context.goNamed(RouterNames.home);
+          BlocProvider.of<BottomNavCubit>(context).selectTab(BottomNavTab.home);
         }
       },
       child: Scaffold(
@@ -56,7 +40,7 @@ class CompleteProfileForm extends StatelessWidget {
           const Gap(40),
           Text("Complete your profile", style: context.textTheme.appBarFont),
           const Gap(8),
-          Text("Just a few more details to get started!",
+          Text("We need a few more details to set up your account.",
               style: context.textTheme.noteStyle),
           const Gap(20),
           BlocSelector<ProfileBloc, ProfileState, NameInput?>(
@@ -78,7 +62,7 @@ class CompleteProfileForm extends StatelessWidget {
               );
             },
           ),
-          const Gap(20),
+          const Gap(10),
           BlocSelector<ProfileBloc, ProfileState, NameInput?>(
             selector: (state) => state.lastName,
             builder: (context, state) {
@@ -97,40 +81,94 @@ class CompleteProfileForm extends StatelessWidget {
               );
             },
           ),
-          const Gap(20),
-          BlocSelector<ProfileBloc, ProfileState, EmailInput?>(
-            selector: (state) => state.email,
+          const Gap(10),
+          Text("Make sure it matches the name on your government ID.",
+              style: context.textTheme.noteStyle),
+          const Gap(24),
+          InstrabahoDropdownTextField(
+            hintText: 'Location',
+            options: [
+              "Manila",
+              "Makati",
+              "Quezon City",
+              "Pasig",
+              "Taguig",
+              "Mandaluyong",
+              "Parañaque",
+              "Pasay",
+              "Marikina",
+              "San Juan",
+              "Las Piñas",
+              "Muntinlupa",
+              "Valenzuela",
+              "Caloocan",
+              "Malabon",
+              "Navotas",
+              "Pateros"
+            ],
+          ),
+          Gap(10),
+          Text("Your location helps us connect you with nearby workers.",
+              style: context.textTheme.noteStyle),
+
+          Gap(24),
+          //create password
+          BlocSelector<ProfileBloc, ProfileState, PasswordInput?>(
+            selector: (state) {
+              return state.password;
+            },
             builder: (context, state) {
-              return InstrabahoTextField(
-                errorText: state?.validator(state.value) ==
-                        EmailInputValidationError.invalid
-                    ? "Invalid email"
-                    : null,
-                hintText: "Email address",
+              return InstrabahoTextField.password(
+                hintText: "Create Password",
                 onChanged: (p0) {
                   BlocProvider.of<ProfileBloc>(context)
-                      .add(ProfileOnChangedEmail(p0));
+                      .add(ProfileOnChangedPassword(p0));
                 },
+                errorText: state?.validator(state.value) ==
+                        PasswordValidationError.empty
+                    ? "Invalid Password"
+                    : state?.validator(state.value) ==
+                            PasswordValidationError.empty
+                        ? "Password cannot be empty"
+                        : null,
+                controller: TextEditingController(),
               );
             },
           ),
+          Gap(10),
+          Text(
+              "Use at least 8 characters, including a mix of letters, numbers, and symbols.",
+              style: context.textTheme.noteStyle),
+          Gap(24),
           const Spacer(),
+          Text(
+              "By clicking Sign up, you agree to Instrabaho’s Terms & Conditions and Privacy Policy.",
+              style: context.textTheme.noteStyle),
+          const Gap(16),
           BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
-              final isValid = state.email?.isValid == true &&
+              final isValid = state.password?.isValid == true &&
                   state.firstName?.isValid == true &&
                   state.lastName?.isValid == true;
               return InstrabahoButton(
-                  label: 'Verify',
-                  onTap: isValid
-                      ? () {
-                          BlocProvider.of<ProfileBloc>(context)
-                              .add(const ProfileOnCompleteSubmit());
-                          context
-                              .read<BottomNavCubit>()
-                              .selectTab(BottomNavTab.home);
-                        }
-                      : null);
+                  label: 'Sign up',
+                  onTap: () {
+                    BlocProvider.of<ProfileBloc>(context)
+                        .add(const ProfileOnCompleteSubmit());
+                    context.read<BottomNavCubit>().selectTab(BottomNavTab.home);
+                  }
+
+                  // isValid
+                  //     ? () {
+                  //         BlocProvider.of<ProfileBloc>(context)
+                  //             .add(const ProfileOnCompleteSubmit());
+                  //         context
+                  //             .read<BottomNavCubit>()
+                  //             .selectTab(BottomNavTab.home);
+                  //       }
+                  //     : null
+
+                  );
             },
           )
         ]),

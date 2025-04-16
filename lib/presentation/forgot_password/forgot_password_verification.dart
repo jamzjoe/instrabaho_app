@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_back_button.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_text.dart'
+    show CustomText;
 
 class ForgotPasswordVerificationScreen extends StatelessWidget {
   const ForgotPasswordVerificationScreen({super.key});
@@ -8,17 +11,11 @@ class ForgotPasswordVerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Forgot Password',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: CustomText.appBar(context, "Forgort Password"),
+        leading: CustomBackButton(),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 60.0),

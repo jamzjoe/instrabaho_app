@@ -52,10 +52,10 @@ class _InstrabahoSearchFieldState extends State<InstrabahoSearchField> {
             validator: widget.validator,
             decoration: InputDecoration(
               errorText: widget.errorText,
-              prefixIcon: Icon(Icons.search, color: hintColor),
+              prefixIcon: Icon(Icons.search, color: C.hintColor),
               suffixIcon: value.text.isNotEmpty
                   ? IconButton(
-                      icon: Icon(Icons.clear_rounded, color: hintColor),
+                      icon: Icon(Icons.clear_rounded, color: C.hintColor),
                       onPressed: () {
                         _controller.clear();
                         if (widget.onChanged != null) {
@@ -64,19 +64,20 @@ class _InstrabahoSearchFieldState extends State<InstrabahoSearchField> {
                       },
                     )
                   : null,
-              hintStyle: context.textTheme.caption.copyWith(color: hintColor),
-              labelStyle: context.textTheme.caption.copyWith(color: hintColor),
+              hintStyle: context.textTheme.caption.copyWith(color: C.hintColor),
+              labelStyle:
+                  context.textTheme.caption.copyWith(color: C.hintColor),
               hintText: widget.hintText ?? 'Search...',
-              fillColor: fieldColor,
+              fillColor: C.fieldColor,
               filled: true,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: fieldColor)),
+                  borderSide: BorderSide(color: C.fieldColor)),
               enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: fieldColor)),
+                  borderSide: BorderSide(color: C.fieldColor)),
               border: const OutlineInputBorder(
-                  borderSide: BorderSide(color: fieldColor)),
+                  borderSide: BorderSide(color: C.fieldColor)),
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
           );

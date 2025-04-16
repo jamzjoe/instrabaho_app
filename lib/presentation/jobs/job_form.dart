@@ -35,7 +35,7 @@ class JobForm extends StatelessWidget {
               Gap(10),
               InstrabahoTextField(hintText: 'Job Description', maxLines: 4),
               Gap(10),
-              InstrabahoTextField(hintText: 'Floor or Unit No.'),
+              InstrabahoTextField(hintText: 'Street, Barangay, City'),
               Gap(10),
               InstrabahoDropdownTextField(
                   hintText: 'Payment Offer', options: ['Fixed', 'Monthly']),

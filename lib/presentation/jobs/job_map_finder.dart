@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:instrabaho_app/constant/data/certificate_mock_data.dart';
 import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
@@ -12,6 +14,7 @@ import 'package:instrabaho_app/domain/data/worker_model.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_button.dart';
 import 'package:instrabaho_app/presentation/common/widgets/instrabaho_textfield.dart';
 import 'package:instrabaho_app/presentation/dashboard/bloc/search_bloc.dart';
+import 'package:instrabaho_app/presentation/messages/bloc/message_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -71,8 +74,8 @@ class _JobMapFinderScreenState extends State<JobMapFinderScreen> {
                         LinearPercentIndicator(
                           linearGradient: LinearGradient(
                             colors: [
-                              secondaryColor,
-                              secondaryColor.withOpacity(isFindingDone ? 1 : 0),
+                              C.blue600,
+                              C.blue600.withOpacity(isFindingDone ? 1 : 0),
                             ],
                           ),
                           barRadius: Radius.circular(8),
@@ -80,7 +83,7 @@ class _JobMapFinderScreenState extends State<JobMapFinderScreen> {
                           width: MediaQuery.of(context).size.width - 32,
                           lineHeight: 14.0,
                           percent: findingPercentage,
-                          backgroundColor: hintColor.withOpacity(0.5),
+                          backgroundColor: C.hintColor.withOpacity(0.5),
                           // progressColor: buttonColor,
                         ),
                       ],
@@ -89,9 +92,24 @@ class _JobMapFinderScreenState extends State<JobMapFinderScreen> {
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Finding ${activeQuery.isNotEmpty && isVowel(activeQuery[0]) ? 'an' : 'a'} $activeQuery for you...',
-                          style: context.textTheme.labelSmall,
+                        child: Column(
+                          children: [
+                            Gap(20),
+                            Text(
+                                'Hang tight! We are finding an amazing $activeQuery for you...',
+                                style: context.textTheme.labelSmall),
+                            Gap(20),
+                            Text(
+                                "Workers might need time to accept your job request",
+                                style: context.textTheme.noteStyle
+                                    .copyWith(fontSize: 12)),
+                            Gap(20),
+                            InstrabahoButton(
+                                label: "Cancel job request",
+                                onTap: () {
+                                  GoRouter.of(context).pop();
+                                }),
+                          ],
                         ),
                       ),
                     ),
@@ -205,177 +223,450 @@ class _JobMapFinderScreenState extends State<JobMapFinderScreen> {
 
   void _reviewProfile(WorkerModel worker) {
     BlocProvider.of<SearchBloc>(context).add(SearchSetActiveWorker(worker));
-    showModalBottomSheet(
-        isScrollControlled: true,
+    showFlexibleBottomSheet(
+        minHeight: .9,
+        maxHeight: .5,
+        initHeight: .9,
         context: context,
-        builder: (context) {
+        builder: (context, scrollController, bottomSheetOffset) {
           var height = MediaQuery.of(context).size.height * 0.8;
           //user profile
-          return ProfileBottomSheet(height: height, worker: worker);
+          return ProfileBottomSheet(
+              height: height,
+              worker: worker,
+              scrollController: scrollController);
         });
   }
 }
 
 class ProfileBottomSheet extends StatelessWidget {
-  const ProfileBottomSheet({
-    super.key,
-    required this.worker,
-    required this.height,
-  });
+  const ProfileBottomSheet(
+      {super.key,
+      required this.worker,
+      required this.height,
+      required this.scrollController});
   final WorkerModel worker;
   final double height;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(32),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+      color: Colors.white,
+      child: Stack(
+        children: [
+          // Scrollable content
+          Column(
             children: [
-              Center(
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  padding: EdgeInsets.only(
+                      bottom: 80), // Leave space for the bottom container
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                //close icon
+                                GestureDetector(
+                                  onTap: () {
+                                    GoRouter.of(context).pop();
+                                  },
+                                  child: Icon(Ionicons.close,
+                                      color: Colors.grey, size: 25),
+                                ),
+                                Text("Worker's Profile",
+                                    style: context.textTheme.subTitle,
+                                    textAlign: TextAlign.center),
+                                Gap(25)
+                              ],
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          height: 20,
+                          thickness: .5,
+                          color: C.hintColor,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(radius: 50), //worker image
+                                  Gap(10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${worker.name}',
+                                          style: context.textTheme.nameStyle),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: C.blue700.withOpacity(0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(80)),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        child: Text('${worker.position}',
+                                            style: context.textTheme.noteStyle
+                                                .copyWith(
+                                                    fontSize: 12,
+                                                    color: C.blue700)),
+                                      ),
+                                      Gap(5),
+                                      Row(
+                                        children: [
+                                          ...List.generate(
+                                            5,
+                                            (index) => Icon(
+                                              Ionicons.star,
+                                              color: Color(0xffF57E20),
+                                              size: 15,
+                                            ),
+                                          ),
+                                          Gap(5),
+                                          Text('4.5',
+                                              style:
+                                                  context.textTheme.labelSmall),
+                                        ],
+                                      ),
+                                      Gap(10),
+                                      IntrinsicHeight(
+                                        child: Row(
+                                          children: [
+                                            Icon(Ionicons.location_outline,
+                                                size: 15),
+                                            Text('${worker.location}',
+                                                style: context
+                                                    .textTheme.noteStyle),
+                                            //vertical divider
+                                            VerticalDivider(
+                                              color: C.hintColor,
+                                              thickness: 1,
+                                              width: 20,
+                                            ),
+                                            Text('0.5 km away',
+                                                style: context
+                                                    .textTheme.noteStyle),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Gap(24),
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: _boxDecor(),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Skills",
+                                        style: context.textTheme.labelMedium),
+                                    Gap(10),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: [
+                                          ...List.generate(
+                                            10,
+                                            (index) => Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xffF57E20)
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          80)),
+                                              child: Text('Skill $index',
+                                                  style: context
+                                                      .textTheme.noteStyle),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Gap(24),
+                              //certifications and trainings
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: _boxDecor(),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Certifications and Trainings",
+                                        style: context.textTheme.labelMedium),
+                                    Gap(10),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: [
+                                          ...certificateList.map((certificate) {
+                                            return Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  color: C.hintColor
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          80)),
+                                              child: Text(
+                                                  '${certificate.title}',
+                                                  style: context
+                                                      .textTheme.noteStyle),
+                                            );
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // Fixed container at the bottom
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                )
+              ]),
+              child: Center(
                 child: Column(
                   children: [
-                    Text('${worker.position}\'s Profile',
-                        style: context.textTheme.subTitle,
-                        textAlign: TextAlign.center),
-
-                    //availability days and time
-                    Text('Available Mon-Fri 8am-5pm',
-                        style: context.textTheme.hintStyle
-                            .copyWith(color: Colors.green)),
+                    Row(
+                      children: [
+                        Text(
+                          "Worker's offer",
+                          style: context.textTheme.subheader,
+                        ),
+                        Spacer(),
+                        Text(
+                          "₱ 500",
+                          style: context.textTheme.subheader,
+                        ),
+                      ],
+                    ),
+                    Gap(10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InstrabahoButton(
+                            outline: true,
+                            borderColor: C.blue600,
+                            bgColor: Colors.transparent,
+                            label: "Mesage",
+                            onTap: () {
+                              BlocProvider.of<MessageBloc>(context)
+                                  .add(MessageInit(worker: worker));
+                              GoRouter.of(context).pushNamed(
+                                  RouterNames.messageConversation,
+                                  extra: WorkerModel(
+                                      name: 'John Doe',
+                                      position: 'Plumbing',
+                                      rating: 4.5));
+                            },
+                          ),
+                        ),
+                        Gap(10),
+                        Expanded(
+                          child: InstrabahoButton(
+                            label: "Hire now",
+                            onTap: () {
+                              showFlexibleBottomSheet(
+                                minHeight: .2,
+                                maxHeight: .5,
+                                initHeight: .45,
+                                bottomSheetColor: Colors.white,
+                                bottomSheetBorderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                                context: context,
+                                builder: (context, scrollController,
+                                    bottomSheetOffset) {
+                                  return Stack(
+                                    children: [
+                                      // Scrollable content
+                                      Column(
+                                        children: [
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              controller: scrollController,
+                                              child: Container(
+                                                padding: EdgeInsets.all(20),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    // Fake drag handle
+                                                    Container(
+                                                      width: 40,
+                                                      height: 5,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(80),
+                                                      ),
+                                                    ),
+                                                    Gap(10),
+                                                    Text(
+                                                        "Confirm your hiring details",
+                                                        style: context.textTheme
+                                                            .subTitle),
+                                                    Gap(20),
+                                                    PaymentDetailRow(
+                                                        label: "Worker's name",
+                                                        value: 'John Doe'),
+                                                    PaymentDetailRow(
+                                                        label: "Payment type",
+                                                        value: 'Cash'),
+                                                    PaymentDetailRow(
+                                                        label: "Base price",
+                                                        value: '₱ 500'),
+                                                    PaymentDetailRow(
+                                                        label:
+                                                            "Convenience fee",
+                                                        value: '₱ 50'),
+                                                    Gap(20),
+                                                    // Total
+                                                    Row(
+                                                      children: [
+                                                        Text("Total",
+                                                            style: context
+                                                                .textTheme
+                                                                .subTitle),
+                                                        Spacer(),
+                                                        Text("₱ 550",
+                                                            style: context
+                                                                .textTheme
+                                                                .subTitle),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      // Bottom button
+                                      Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        child: Container(
+                                          padding: EdgeInsets.all(20),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: InstrabahoButton(
+                                            label: "Hire worker",
+                                            onTap: () {
+                                              GoRouter.of(context).pushNamed(
+                                                  RouterNames
+                                                      .jobConfirmedScreen);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              Gap(10),
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text('John Doe',
-                            style: context.textTheme.titleLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center),
-                      ),
-                      Center(
-                          child: Text('${worker.location}',
-                              style: context.textTheme.hintStyle)),
-                    ],
-                  ),
-                  Spacer(),
-                  Center(child: CircleAvatar(radius: 30)),
-                ],
-              ),
-              //star rating row 5 stars
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ...List.generate(5, (index) {
-                    return Icon(Ionicons.star,
-                        color: const Color.fromARGB(255, 240, 161, 42),
-                        size: 20);
-                  }),
-                ],
-              ),
-              Gap(10),
-              Center(
-                  child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('4.8 out of 5',
-                      style: context.textTheme.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold)),
-                  Text('100 reviews', style: context.textTheme.hintStyle),
-                ],
-              )),
-              Gap(30),
-              //handshake icon with text "make a deal"
-              GestureDetector(
-                onTap: () {
-                  if (context.canPop()) {
-                    context.pop();
-                  }
-                  context.pushNamed(RouterNames.messageConversation,
-                      extra: worker);
-                },
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //call icon
-                      CircleAvatar(
-                        backgroundColor: Colors.green.withOpacity(0.5),
-                        radius: 30,
-                        child: CircleAvatar(
-                            backgroundColor: Colors.green.withOpacity(1),
-                            radius: 20,
-                            child: Icon(Ionicons.chatbox,
-                                color: Colors.white, size: 15)),
-                      ),
-                      Gap(10),
-                      Text('Make a deal', style: context.textTheme.hintStyle),
-                    ],
-                  ),
-                ),
-              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-              Text('Bio', style: context.textTheme.noteStyle),
-              Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                  style: context.textTheme.labelSmall),
-              Gap(15),
-              Text('Skills', style: context.textTheme.noteStyle),
-              Text('Plumbing, Electrical Work',
-                  style: context.textTheme.labelSmall),
-              Gap(15),
-              Text('Certifications', style: context.textTheme.noteStyle),
-              Text('Certified Plumber, Licensed Electrician',
-                  style: context.textTheme.labelSmall),
-              Gap(15),
-              Text('Rates', style: context.textTheme.noteStyle),
-              Text('\$50/hour', style: context.textTheme.labelSmall),
-              Gap(15),
-              Text('Member since', style: context.textTheme.noteStyle),
-              Text('December 30, 1999', style: context.textTheme.labelSmall),
-              Gap(15),
-              //gallery
-              Text('Recent Jobs Gallery', style: context.textTheme.noteStyle),
-              Gap(10),
-              Container(
-                height: 100,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(right: 10),
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                            child:
-                                Icon(Icons.add_a_photo, color: Colors.white)),
-                      );
-                    }),
-              ),
-              Gap(20),
-              InstrabahoButton(
-                  label: 'Hire ${worker.name} as your ${worker.position}',
-                  onTap: () {
-                    if (context.canPop()) {
-                      context.pop();
-                    }
-                    context.pushNamed(RouterNames.messageConversation,
-                        extra: worker);
-                  }),
-            ]),
+  BoxDecoration _boxDecor() {
+    return BoxDecoration(
+        border: Border.all(color: C.hintColor),
+        borderRadius: BorderRadius.circular(8));
+  }
+}
+
+class PaymentDetailRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const PaymentDetailRow({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: context.textTheme.defaultBold,
+          ),
+          Spacer(),
+          Text(
+            value,
+            style: context.textTheme.defaultBold,
+          ),
+        ],
       ),
     );
   }
@@ -403,10 +694,23 @@ class Worker extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('${worker.name}', style: context.textTheme.labelMedium),
+                  Gap(5),
                   Text('${worker.position}',
                       style:
                           context.textTheme.noteStyle.copyWith(fontSize: 12)),
-                  Text('${worker.location}')
+                  Gap(5),
+                  Row(
+                    children: [
+                      ...List.generate(
+                        5,
+                        (index) => Icon(
+                          Ionicons.star,
+                          color: Colors.yellow,
+                          size: 15,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_back_button.dart';
+import 'package:instrabaho_app/presentation/common/widgets/custom_text.dart';
 
 class NewPasswordScreen extends StatelessWidget {
   const NewPasswordScreen({super.key});
@@ -51,14 +53,8 @@ class NewPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Forgot Password',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          title: CustomText.appBar(context, "Forgot Password"),
+          leading: CustomBackButton(),
         ),
         //TODO: Use CustomScrollView instead of ListView
         body: ListView(
