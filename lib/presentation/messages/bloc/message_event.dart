@@ -16,13 +16,22 @@ class MessageInit extends MessageEvent {
   List<Object?> get props => [worker];
 }
 
+class MessageInputChanged extends MessageEvent {
+  final String input;
+
+  const MessageInputChanged({required this.input});
+
+  @override
+  List<Object?> get props => [input];
+}
+
 class MessageSend extends MessageEvent {
   final String message;
 
   const MessageSend({required this.message});
 
   @override
-  List<Object?> get props => [message];
+  List<Object> get props => [message];
 }
 
 class SimulateUserReply extends MessageEvent {
@@ -40,7 +49,7 @@ class MessageMakeAnOffer extends MessageEvent {
   const MessageMakeAnOffer({required this.message});
 
   @override
-  List<Object?> get props => [message];
+  List<Object> get props => [message];
 }
 
 class MessageSendHire extends MessageEvent {}
@@ -51,7 +60,7 @@ class MessageSwicthPOV extends MessageEvent {
   const MessageSwicthPOV({required this.tabIndex});
 
   @override
-  List<Object?> get props => [tabIndex];
+  List<Object> get props => [tabIndex];
 }
 
 class SimulateUserAcceptOffer extends MessageEvent {}

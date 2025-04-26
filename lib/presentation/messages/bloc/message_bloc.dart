@@ -16,6 +16,10 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       emit(state.copyWith(worker: event.worker));
     });
 
+    on<MessageInputChanged>((event, emit) {
+      emit(state.copyWith(messageInput: event.input));
+    });
+
     on<MessageSend>((event, emit) async {
       final List<Message> messages = List.from(state.messages);
       final WorkerModel? worker = state.worker;
@@ -34,6 +38,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       emit(state.copyWith(
         messages: messages,
         status: MessageStatus.sent,
+        messageInput: '', // Clear input after sending
       ));
 
       // Set status to receiving before simulating reply

@@ -94,6 +94,9 @@ class $AssetsGifGen {
 class $AssetsIconGen {
   const $AssetsIconGen();
 
+  /// File path: assets/icon/active_send_button.svg
+  String get activeSendButton => 'assets/icon/active_send_button.svg';
+
   /// File path: assets/icon/arrow_right.svg
   String get arrowRight => 'assets/icon/arrow_right.svg';
 
@@ -117,6 +120,9 @@ class $AssetsIconGen {
   /// File path: assets/icon/reward.png
   AssetGenImage get reward => const AssetGenImage('assets/icon/reward.png');
 
+  /// File path: assets/icon/send_button.svg
+  String get sendButton => 'assets/icon/send_button.svg';
+
   /// File path: assets/icon/wallet.png
   AssetGenImage get wallet => const AssetGenImage('assets/icon/wallet.png');
 
@@ -125,6 +131,7 @@ class $AssetsIconGen {
 
   /// List of all assets
   List<dynamic> get values => [
+    activeSendButton,
     arrowRight,
     caution,
     crown,
@@ -132,6 +139,7 @@ class $AssetsIconGen {
     homeOwner,
     launcherIcon,
     reward,
+    sendButton,
     wallet,
     worker,
   ];
@@ -334,6 +342,7 @@ class $AssetsSvgGen {
 class Assets {
   const Assets._();
 
+  static const String aEnv = '.env';
   static const $AssetsBottomNavGen bottomNav = $AssetsBottomNavGen();
   static const $AssetsCategoriesGen categories = $AssetsCategoriesGen();
   static const $AssetsFeaturedGen featured = $AssetsFeaturedGen();
@@ -343,6 +352,9 @@ class Assets {
   static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsMapGen map = $AssetsMapGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
+
+  /// List of all assets
+  static List<String> get values => [aEnv];
 }
 
 class AssetGenImage {

@@ -7,12 +7,14 @@ class MessageState extends Equatable {
   final WorkerModel? worker;
   final int tabIndex;
   final MessageStatus status;
+  final String messageInput;
 
   const MessageState({
     this.messages = const [],
     this.worker,
     this.tabIndex = 0,
     this.status = MessageStatus.initial,
+    this.messageInput = '',
   });
 
   MessageState copyWith({
@@ -20,15 +22,17 @@ class MessageState extends Equatable {
     WorkerModel? worker,
     int? tabIndex,
     MessageStatus? status,
+    String? messageInput,
   }) {
     return MessageState(
       messages: messages ?? this.messages,
       worker: worker ?? this.worker,
       tabIndex: tabIndex ?? this.tabIndex,
       status: status ?? this.status,
+      messageInput: messageInput ?? this.messageInput,
     );
   }
 
   @override
-  List<Object?> get props => [messages, worker, tabIndex, status];
+  List<Object?> get props => [messages, worker, tabIndex, status, messageInput];
 }

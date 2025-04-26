@@ -7,9 +7,7 @@ import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/domain/data/worker_model.dart';
 import 'package:instrabaho_app/presentation/activity/activity_details_screen.dart';
 import 'package:instrabaho_app/presentation/activity/activity_screen.dart';
-import 'package:instrabaho_app/presentation/app/app_bloc.dart';
 import 'package:instrabaho_app/presentation/authentication/email_verificaton/email_verfication.dart';
-import 'package:instrabaho_app/presentation/authentication/login/bloc/login_bloc.dart';
 import 'package:instrabaho_app/presentation/authentication/login/login_screen.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_otp.dart';
 import 'package:instrabaho_app/presentation/authentication/phone_verification/phone_number_verification.dart';
@@ -113,10 +111,7 @@ class AppRouterConifg {
               //   builder: (context, state) => const MatchFaceDetection(),
               // ),
             ],
-            builder: (context, state) => BlocProvider(
-              create: (context) => LoginBloc(authBloc: context.read<AppBloc>()),
-              child: const LoginScreen(),
-            ),
+            builder: (context, state) => const LoginScreen(),
           ),
         ],
       ),
@@ -234,9 +229,8 @@ class AppRouterConifg {
                     parentNavigatorKey: _rootNavigatorKey,
                     path: 'message_conversation',
                     name: RouterNames.messageConversation,
-                    builder: (context, state) => MessageConversation(
-                        worker: WorkerModel(
-                            name: 'John Doe', position: 'Plumber', rating: 5)),
+                    builder: (context, state) =>
+                        MessageConversation(worker: state.extra as WorkerModel),
                   ),
                 ],
               ),

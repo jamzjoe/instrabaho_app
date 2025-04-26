@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:instrabaho_app/constant/router/router_names.dart';
 import 'package:instrabaho_app/constant/styles/colors.dart';
 import 'package:instrabaho_app/constant/styles/font_styles.dart';
 import 'package:instrabaho_app/domain/data/worker_model.dart';
@@ -294,6 +296,8 @@ class _MessagesScreenState extends State<MessagesScreen>
       onTap: () {
         //Todo
         // Handle navigation to message conversation
+        context.pushNamed(RouterNames.messageConversation,
+            extra: WorkerModel(name: name, position: 'Plumber', rating: 5));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

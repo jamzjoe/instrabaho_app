@@ -1,0 +1,66 @@
+### Worker Registration
+POST {{baseUrl}}/workers/register
+Accept: application/json
+Content-Type: multipart/form-data
+
+
+### Client Registration
+POST {{baseUrl}}/clients/register
+Accept: application/json
+Content-Type: application/json
+
+{
+    "first_name": "James",
+    "last_name": "Client",
+    "contact_number": "9633987953",
+    "country_code": "63",
+    "password": "Test123!",
+    "email": "jamesgarnfil15@gmail.com",
+    "birth_date": "1990-01-01",
+    "gender": "male",
+    "emergency_contact_name": "Jane Doe",
+    "emergency_contact_number": "9876543210",
+    "emergency_contact_relationship": "Spouse",
+    "address": "123 Main St, City, Country",
+    "latitude": 14.717476,
+    "longitude": 121.1065374,
+    "preferred_language": "English",
+    "profile_picture": "https://example.com/profile.jpg",
+    "company_name": "ABC Corp",
+    "company_position": "Manager",
+    "company_address": "456 Business Ave, City, Country",
+    "company_website": "https://abccorp.com",
+    "company_description": "Leading company in the industry"
+}
+
+### Client Login
+POST {{baseUrl}}/clients/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "contact_number": "9613987953",
+    "country_code": "63",
+    "password": "Test123!"
+}
+
+### Worker Login
+POST {{baseUrl}}/workers/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "contact_number": "9613987953",
+    "country_code": "63",
+    "password": "Test123!"
+}
+
+### Logout
+POST {{baseUrl}}/logout
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Variables
+@baseUrl = https://staging.instrabaho.com/api/v1
+@token = your_bearer_token_here
+@email = test@example.com 

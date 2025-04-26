@@ -15,3 +15,7 @@ class AppChangeUser extends AppEvent {
   @override
   List<Object> get props => [user];
 }
+
+class AppCheckAuth extends AppEvent {
+  const AppCheckAuth();
+}

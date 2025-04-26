@@ -1,0 +1,2 @@
+/Volumes/T7 Shield/Flutter Projects/instrabaho_app/android/app/.cxx/Debug/z58153n1/x86/CMakeFiles/edit_cache.dir
+/Volumes/T7 Shield/Flutter Projects/instrabaho_app/android/app/.cxx/Debug/z58153n1/x86/CMakeFiles/rebuild_cache.dir
